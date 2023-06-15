@@ -1,0 +1,242 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import {
+  FilterPartyResponseDTO,
+  FilterPartyRequestDTO,
+  ShowPartyResponseDTO,
+  ShowPartyParamsDTO,
+  ShowPartyRequestDTO,
+  CreatePartyResponseDTO,
+  CreatePartyRequestDTO,
+  UpdatePartyResponseDTO,
+  UpdatePartyParamsDTO,
+  UpdatePartyRequestDTO,
+  DeletePartyResponseDTO,
+  DeletePartyParamsDTO,
+  DeletePartyRequestDTO,
+  TestPartyResponseDTO,
+  TestPartyRequestDTO,
+} from './dto';
+import {
+  QueryCondition,
+  QueryOperators,
+  QueryWhereType,
+  QueryRelation,
+  QueryPagination,
+  QueryOrder,
+  QueryOrderDir,
+} from 'src/shared/base.repository';
+import { UploadService } from 'src/shared/storage/upload.service';
+import { Party } from 'entities/parties';
+import { PartyRepository } from './parties.repository';
+
+@Injectable()
+export class PartyService {
+  constructor(
+    @InjectRepository(Party)
+    readonly repository: PartyRepository,
+    private readonly uploadService: UploadService,
+  ) {}
+
+  async filter(queries: FilterPartyRequestDTO) {
+    const conditions: QueryCondition[] = [
+      {
+        column: 'nameparty',
+        value: queries?.parties?.nameparty,
+        operator: QueryOperators.START_WITH,
+        whereType: QueryWhereType.WHERE,
+      },
+      {
+        column: 'partystarttime',
+        value: queries?.parties?.partystarttime,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'partylocation',
+        value: queries?.parties?.partylocation,
+        operator: QueryOperators.START_WITH,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'numberofpeople',
+        value: queries?.parties?.numberofpeople,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'isstatus',
+        value: queries?.parties?.isstatus,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'admin_id',
+        value: queries?.parties?.admin_id,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'describe',
+        value: queries?.parties?.describe,
+        operator: QueryOperators.START_WITH,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'requiredage',
+        value: queries?.parties?.requiredage,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+    ];
+
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'admin', alias: 'admins' },
+      { column: 'img', alias: 'img' },
+    ];
+
+    const pagination: QueryPagination = {
+      page: queries?.pagination_page,
+      limit: queries?.pagination_limit,
+    };
+
+    const orders: QueryOrder[] = [{ orderBy: 'parties.created_at', orderDir: QueryOrderDir.DESC }];
+
+    const [parties, totalCount, totalPages] = await this.repository.findMany({
+      conditions,
+      relations,
+      pagination,
+      orders,
+    });
+
+    return new FilterPartyResponseDTO(parties, totalCount, totalPages);
+  }
+  async show(params: ShowPartyParamsDTO, queries: ShowPartyRequestDTO) {
+    const conditions: QueryCondition[] = [
+      {
+        column: 'parties.id',
+        value: params.id,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE,
+      },
+    ];
+
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'admin', alias: 'admins' },
+      { column: 'img', alias: 'img' },
+    ];
+
+    const entity = await this.repository.getOne({ conditions });
+    const show = await this.repository.getRelations(entity, { relations });
+
+    return new ShowPartyResponseDTO(show);
+  }
+  async create(request: CreatePartyRequestDTO) {
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'admin', alias: 'admins' },
+      { column: 'img', alias: 'img' },
+    ];
+
+    const data = {
+      nameparty: request?.parties?.nameparty,
+      partystarttime: request?.parties?.partystarttime,
+      partylocation: request?.parties?.partylocation,
+      numberofpeople: request?.parties?.numberofpeople,
+      isstatus: request?.parties?.isstatus,
+      admin_id: request?.parties?.admin_id,
+      describe: request?.parties?.describe,
+      requiredage: request?.parties?.requiredage,
+      ...(request?.parties?.img
+        ? { img: await this.uploadService.uploadFile(request?.parties?.img) }
+        : {}),
+    };
+
+    const entity = await this.repository.createOne({ data });
+    const create = await this.repository.getRelations(entity, { relations });
+
+    return new CreatePartyResponseDTO(create);
+  }
+  async update(params: UpdatePartyParamsDTO, request: UpdatePartyRequestDTO) {
+    const conditions: QueryCondition[] = [
+      {
+        column: 'parties.id',
+        value: params.id,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE_AND,
+      },
+    ];
+
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'admin', alias: 'admins' },
+      { column: 'img', alias: 'img' },
+    ];
+
+    const data = {
+      nameparty: request?.parties?.nameparty,
+      partystarttime: request?.parties?.partystarttime,
+      partylocation: request?.parties?.partylocation,
+      numberofpeople: request?.parties?.numberofpeople,
+      isstatus: request?.parties?.isstatus,
+      admin_id: request?.parties?.admin_id,
+      describe: request?.parties?.describe,
+      requiredage: request?.parties?.requiredage,
+      ...(request?.parties?.img
+        ? { img: await this.uploadService.uploadFile(request?.parties?.img) }
+        : {}),
+    };
+
+    const entity = await this.repository.updateOne({ conditions, data });
+    const update = await this.repository.getRelations(entity, { relations });
+
+    return new UpdatePartyResponseDTO(update);
+  }
+  async delete(params: DeletePartyParamsDTO, request: DeletePartyRequestDTO) {
+    const conditions: QueryCondition[] = [
+      {
+        column: 'parties.id',
+        value: params.id,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE,
+      },
+    ];
+
+    await this.repository.removeOne({ conditions });
+
+    return new DeletePartyResponseDTO();
+  }
+  async test(queries: TestPartyRequestDTO) {
+    const conditions: QueryCondition[] = [
+      {
+        column: 'partybookings.user_id',
+        value: queries?.useid,
+        operator: QueryOperators.EQUAL,
+        whereType: QueryWhereType.WHERE,
+      },
+    ];
+
+    const relations: QueryRelation[] = [
+      { column: 'parties.partybookings', alias: 'partybookings' },
+      { column: 'img', alias: 'img' },
+    ];
+
+    const pagination: QueryPagination = {
+      page: queries?.pagination_page,
+      limit: queries?.pagination_limit,
+    };
+
+    const orders: QueryOrder[] = [{ orderBy: 'parties.created_at', orderDir: QueryOrderDir.DESC }];
+
+    const [parties, totalCount, totalPages] = await this.repository.findMany({
+      conditions,
+      relations,
+      pagination,
+      orders,
+    });
+
+    return new TestPartyResponseDTO(parties, totalCount, totalPages);
+  }
+}
