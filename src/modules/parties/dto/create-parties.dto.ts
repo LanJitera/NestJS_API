@@ -6,7 +6,7 @@ import {
   EnumFieldOptional,
   NumberField,
   StringFieldOptional,
-  FileField,
+  FileFieldOptional,
   ObjectField,
 } from 'src/decorators/field.decorator';
 import { FileSystemStoredFile } from 'nestjs-form-data';
@@ -29,8 +29,8 @@ export class CreatePartyRequest {
   describe?: string;
   @NumberFieldOptional({ int: true, minimum: -2147483647, maximum: 2147483646 })
   requiredage?: number;
-  @FileField({ fileTypes: ['image'] })
-  img: FileSystemStoredFile;
+  @FileFieldOptional({ fileTypes: ['image'] })
+  img?: FileSystemStoredFile;
 }
 export class CreatePartyRequestDTO {
   @ObjectField(CreatePartyRequest)

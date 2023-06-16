@@ -32,8 +32,8 @@ export class User {
   @Column({ nullable: false, type: 'varchar', default: '' })
   username: string = '';
 
-  @Column({ nullable: false, type: 'text' })
-  password: string;
+  @Column({ nullable: true, type: 'text', default: '' })
+  password: string = '';
 
   @Column({ nullable: false, type: 'timestamp' })
   dateofbirth: Date;
