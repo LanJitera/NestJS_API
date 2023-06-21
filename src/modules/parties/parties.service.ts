@@ -42,54 +42,58 @@ export class PartyService {
     const conditions: QueryCondition[] = [
       {
         column: 'nameparty',
-        value: queries?.parties?.nameparty,
+        value: queries?.parties?.nameparty.toLowerCase(),
         operator: QueryOperators.START_WITH,
         whereType: QueryWhereType.WHERE,
+        isLowerCase: true
       },
       {
         column: 'partystarttime',
         value: queries?.parties?.partystarttime,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
+        isDateTime: true,
       },
       {
         column: 'partylocation',
-        value: queries?.parties?.partylocation,
+        value: queries?.parties?.partylocation.toLowerCase(),
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'numberofpeople',
         value: queries?.parties?.numberofpeople,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'isstatus',
         value: queries?.parties?.isstatus,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'admin_id',
         value: queries?.parties?.admin_id,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'describe',
         value: queries?.parties?.describe,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'requiredage',
         value: queries?.parties?.requiredage,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
     ];
 
+    console.log(queries?.parties?.partystarttime);
+    
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
