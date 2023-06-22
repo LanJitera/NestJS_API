@@ -75,7 +75,10 @@ export class PartyController {
   }
 
   @MethodGet('/api/parties/BookingHistory')
+  @ApiNestedQuery('parties', FilterPartyRequest)
   test(@Query() queries: TestPartyRequestDTO): Promise<TestPartyResponseDTO> {
+  console.log(12345);
+  
     return this.partyService.test(queries);
   }
 }
