@@ -91,9 +91,6 @@ export class PartyService {
         whereType: QueryWhereType.WHERE_AND,
       },
     ];
-
-    console.log(queries?.parties?.partystarttime);
-    
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
@@ -213,6 +210,7 @@ export class PartyService {
     return new DeletePartyResponseDTO();
   }
   async test(queries: TestPartyRequestDTO) {
+   
     const conditions: QueryCondition[] = [
       {
         column: 'partybookings.user_id',
@@ -221,7 +219,7 @@ export class PartyService {
         whereType: QueryWhereType.WHERE,
       },
     ];
-
+    console.log(queries?.useid,"lanalo");
     const relations: QueryRelation[] = [
       { column: 'parties.partybookings', alias: 'partybookings' },
       { column: 'img', alias: 'img' },
