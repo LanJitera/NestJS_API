@@ -57,6 +57,7 @@ export class PartybookingService {
     const relations: QueryRelation[] = [
       { column: 'user', alias: 'users' },
       { column: 'party', alias: 'parties' },
+      { column: 'parties.img', alias: 'parties_img' },
     ];
 
     const pagination: QueryPagination = {
