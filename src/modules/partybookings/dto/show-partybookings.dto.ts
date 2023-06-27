@@ -10,6 +10,9 @@ export class UserShowPartybookingResponse {
   id: number;
   created_at: Date;
   updated_at: Date;
+  name: string;
+  email: string;
+  dateofbirth: Date;
 }
 export class PartyShowPartybookingResponse {
   id: number;
@@ -47,6 +50,9 @@ export class ShowPartybookingResponseDTO {
         id: partybooking?.user?.id,
         created_at: partybooking?.user?.created_at,
         updated_at: partybooking?.user?.updated_at,
+        name: partybooking?.user?.username,
+        email: partybooking?.user?.email,
+        dateofbirth: partybooking?.user?.dateofbirth,
       },
       user_id: partybooking?.user_id,
       party: {
