@@ -13,7 +13,6 @@ import {
   UpdatePartyRequestDTO,
   DeletePartyResponseDTO,
   DeletePartyParamsDTO,
-  DeletePartyRequestDTO,
   TestPartyResponseDTO,
   TestPartyRequestDTO,
 } from './dto';
@@ -195,7 +194,7 @@ export class PartyService {
 
     return new UpdatePartyResponseDTO(update);
   }
-  async delete(params: DeletePartyParamsDTO, request: DeletePartyRequestDTO) {
+  async delete(params: DeletePartyParamsDTO) {
     const conditions: QueryCondition[] = [
       {
         column: 'parties.id',
