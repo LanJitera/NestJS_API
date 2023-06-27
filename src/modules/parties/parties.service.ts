@@ -13,7 +13,6 @@ import {
   UpdatePartyRequestDTO,
   DeletePartyResponseDTO,
   DeletePartyParamsDTO,
-  DeletePartyRequestDTO,
   TestPartyResponseDTO,
   TestPartyRequestDTO,
 } from './dto';
@@ -91,6 +90,7 @@ export class PartyService {
         whereType: QueryWhereType.WHERE_AND,
       },
     ];
+
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
@@ -195,7 +195,7 @@ export class PartyService {
 
     return new UpdatePartyResponseDTO(update);
   }
-  async delete(params: DeletePartyParamsDTO, request: DeletePartyRequestDTO) {
+  async delete(params: DeletePartyParamsDTO) {
     const conditions: QueryCondition[] = [
       {
         column: 'parties.id',
@@ -219,7 +219,7 @@ export class PartyService {
         whereType: QueryWhereType.WHERE,
       },
     ];
-    console.log(queries?.useid,"lanalo");
+
     const relations: QueryRelation[] = [
       { column: 'parties.partybookings', alias: 'partybookings' },
       { column: 'img', alias: 'img' },

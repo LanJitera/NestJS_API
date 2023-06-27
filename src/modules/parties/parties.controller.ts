@@ -24,7 +24,6 @@ import {
   UpdatePartyRequestDTO,
   DeletePartyResponseDTO,
   DeletePartyParamsDTO,
-  DeletePartyRequestDTO,
   TestPartyResponseDTO,
   TestPartyRequestDTO,
 } from './dto';
@@ -66,19 +65,12 @@ export class PartyController {
   }
 
   @MethodDelete('/api/parties/:id')
-  @ApiUpload()
-  delete(
-    @Param() params: DeletePartyParamsDTO,
-    @Body() request: DeletePartyRequestDTO,
-  ): Promise<DeletePartyResponseDTO> {
-    return this.partyService.delete(params, request);
+  delete(@Param() params: DeletePartyParamsDTO): Promise<DeletePartyResponseDTO> {
+    return this.partyService.delete(params);
   }
 
   @MethodGet('/api/parties/BookingHistory')
-  @ApiNestedQuery('parties', FilterPartyRequest)
   test(@Query() queries: TestPartyRequestDTO): Promise<TestPartyResponseDTO> {
-  console.log(12345);
-  
     return this.partyService.test(queries);
   }
 }
