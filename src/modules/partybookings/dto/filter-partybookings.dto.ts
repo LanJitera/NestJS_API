@@ -3,7 +3,6 @@ import {
   NumberFieldOptional,
   EnumFieldOptional,
   ObjectFieldOptional,
-  StringFieldOptional,
 } from 'src/decorators/field.decorator';
 import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
 import { StorageFile } from 'entities/storage_files';
@@ -23,8 +22,6 @@ export class FilterPartybookingRequestDTO {
   pagination_limit?: number;
   @ObjectFieldOptional(FilterPartybookingRequest)
   partybookings?: FilterPartybookingRequest;
-  @StringFieldOptional({})
-  username?: string;
 }
 export class UserFilterPartybookingResponse {
   id: number;
