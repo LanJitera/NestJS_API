@@ -41,55 +41,54 @@ export class PartyService {
     const conditions: QueryCondition[] = [
       {
         column: 'nameparty',
-        value: queries?.parties?.nameparty.toLowerCase(),
+        value: queries?.parties?.nameparty,
         operator: QueryOperators.START_WITH,
         whereType: QueryWhereType.WHERE,
-        isLowerCase: true
       },
       {
         column: 'partystarttime',
         value: queries?.parties?.partystarttime,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
-        isDateTime: true,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'partylocation',
-        value: queries?.parties?.partylocation.toLowerCase(),
+        value: queries?.parties?.partylocation,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'numberofpeople',
         value: queries?.parties?.numberofpeople,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'isstatus',
         value: queries?.parties?.isstatus,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'admin_id',
         value: queries?.parties?.admin_id,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'describe',
         value: queries?.parties?.describe,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'requiredage',
         value: queries?.parties?.requiredage,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
     ];
+
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
@@ -209,7 +208,6 @@ export class PartyService {
     return new DeletePartyResponseDTO();
   }
   async test(queries: TestPartyRequestDTO) {
-   
     const conditions: QueryCondition[] = [
       {
         column: 'partybookings.user_id',
@@ -218,7 +216,7 @@ export class PartyService {
         whereType: QueryWhereType.WHERE,
       },
     ];
-    console.log(queries?.useid,"lanalo");
+
     const relations: QueryRelation[] = [
       { column: 'parties.partybookings', alias: 'partybookings' },
       { column: 'img', alias: 'img' },
