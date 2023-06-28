@@ -54,8 +54,8 @@ export class PartybookingService {
       },
       {
         column: 'username',
-        value: queries?.partybookings?.username,
-        operator: QueryOperators.CONTAIN,
+        value: queries?.username,
+        operator: QueryOperators.START_WITH,
         whereType: QueryWhereType.WHERE_OR,
       },
     ];
