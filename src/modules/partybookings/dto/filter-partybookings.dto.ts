@@ -2,6 +2,7 @@ import { Partybooking, StatusEnum as PartybookingStatusEnum } from 'entities/par
 import {
   NumberFieldOptional,
   EnumFieldOptional,
+  StringFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
 import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
@@ -14,6 +15,8 @@ export class FilterPartybookingRequest {
   party_id?: number;
   @EnumFieldOptional(() => PartybookingStatusEnum)
   status?: PartybookingStatusEnum;
+  @StringFieldOptional({})
+  username?: string;
 }
 export class FilterPartybookingRequestDTO {
   @NumberFieldOptional({ int: true })

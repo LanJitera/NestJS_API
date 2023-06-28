@@ -52,6 +52,12 @@ export class PartybookingService {
         operator: QueryOperators.EQUAL,
         whereType: QueryWhereType.WHERE_OR,
       },
+      {
+        column: 'username',
+        value: queries?.partybookings?.username,
+        operator: QueryOperators.CONTAIN,
+        whereType: QueryWhereType.WHERE_OR,
+      },
     ];
 
     const relations: QueryRelation[] = [
