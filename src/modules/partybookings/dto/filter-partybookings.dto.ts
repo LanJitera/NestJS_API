@@ -2,8 +2,8 @@ import { Partybooking, StatusEnum as PartybookingStatusEnum } from 'entities/par
 import {
   NumberFieldOptional,
   EnumFieldOptional,
-  StringFieldOptional,
   ObjectFieldOptional,
+  StringFieldOptional,
 } from 'src/decorators/field.decorator';
 import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
 import { StorageFile } from 'entities/storage_files';
@@ -15,8 +15,6 @@ export class FilterPartybookingRequest {
   party_id?: number;
   @EnumFieldOptional(() => PartybookingStatusEnum)
   status?: PartybookingStatusEnum;
-  @StringFieldOptional({})
-  username?: string;
 }
 export class FilterPartybookingRequestDTO {
   @NumberFieldOptional({ int: true })
@@ -25,6 +23,8 @@ export class FilterPartybookingRequestDTO {
   pagination_limit?: number;
   @ObjectFieldOptional(FilterPartybookingRequest)
   partybookings?: FilterPartybookingRequest;
+  @StringFieldOptional({})
+  username?: string;
 }
 export class UserFilterPartybookingResponse {
   id: number;
