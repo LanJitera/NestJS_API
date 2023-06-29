@@ -12,7 +12,7 @@ import { plainToInstance } from 'class-transformer';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from 'constants/index';
 
 type ClassType<T> = {
-  new(...args: unknown[]): T;
+  new (...args: unknown[]): T;
 };
 
 export enum QueryOperators {
@@ -49,8 +49,6 @@ export type CondtionItem = {
   paramName?: string; // use for relation condition
   conditions?: QueryCondition[];
   builder?: ConditionFunction;
-  isDateTime?: boolean;
-  isLowerCase?: boolean;
 };
 export type ConditionFunction = (value: WhereExpressionBuilder) => WhereExpressionBuilder;
 export type QueryCondition = CondtionItem | ConditionFunction;
@@ -219,8 +217,6 @@ export class BaseRepository<T> extends Repository<T> {
         operator,
         builder,
         conditions: childConditions,
-        isDateTime,
-        isLowerCase
       } = condition;
 
       if (builder) {
@@ -242,15 +238,7 @@ export class BaseRepository<T> extends Repository<T> {
       let params;
       if (value === undefined || value === null || !column) return;
 
-
-      const columnName =
-        isDateTime
-          ? this._parseColumnDate(column)
-          : isLowerCase
-            ? this._parseColumnNameLower(column)
-            : this._parseColumnName(column)
-        ;
-
+      const columnName = this._parseColumnName(column);
       const paramName = this._parseParamName(column);
       if (Array.isArray(value) && [QueryOperators.IN, QueryOperators.NOT_IN].includes(operator)) {
         statement = [
@@ -293,11 +281,11 @@ export class BaseRepository<T> extends Repository<T> {
     options: {
       whereType: QueryWhereType;
       where?:
-      | string
-      | Brackets
-      | ((qb: WhereExpressionBuilder) => string)
-      | ObjectLiteral
-      | ObjectLiteral[];
+        | string
+        | Brackets
+        | ((qb: WhereExpressionBuilder) => string)
+        | ObjectLiteral
+        | ObjectLiteral[];
       params?: ObjectLiteral;
     },
   ) {
@@ -325,9 +313,10 @@ export class BaseRepository<T> extends Repository<T> {
   private _buildJoinCondition(joinCondition?: CondtionItem) {
     return joinCondition
       ? [
-        `${joinCondition?.column}${this._parseOperator(joinCondition.operator)}${joinCondition.value
-        }`,
-      ]
+          `${joinCondition?.column}${this._parseOperator(joinCondition.operator)}${
+            joinCondition.value
+          }`,
+        ]
       : [];
   }
 
@@ -400,16 +389,6 @@ export class BaseRepository<T> extends Repository<T> {
 
   private _parseColumnName(name: string) {
     return name.includes('.') ? name : `${this.alias}.${name}`;
-  }
-  private _parseColumnNameLower(name: string) {
-    return name.includes('.')
-      ? `LOWER(${name})`
-      : `LOWER(${this.alias}.${name})`;
-  }
-  private _parseColumnDate(name: string) {
-    return name.includes('.')
-      ? `DATE(${name})`
-      : `DATE(${this.alias}.${name})`;
   }
 
   private _parseParamName(name: string) {

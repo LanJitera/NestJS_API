@@ -315,7 +315,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_anomalous" {
 resource "aws_cloudwatch_metric_alarm" "ecs_memory_anomalous" {
   alarm_name                = "${var.name}_ecs_memory_anomalous"
   comparison_operator       = "GreaterThanUpperThreshold"
-  evaluation_periods        = "2"
+  evaluation_periods        = "3"
   threshold_metric_id       = "ecs_e2"
   alarm_description         = "Anomalous ECS Memory usage detected. Something unusual is happening."
   ok_actions                = [var.action]
@@ -336,7 +336,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_anomalous" {
       metric_name = "MemoryUtilization"
       namespace   = "AWS/ECS"
       period      = "300"
-      stat        = "Average"
+      stat        = "Maximum"
       unit        = "Percent"
 
       dimensions = {
