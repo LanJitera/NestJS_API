@@ -5,7 +5,6 @@ import {
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
 import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
-import { StorageFile } from 'entities/storage_files';
 
 export class FilterPartybookingRequest {
   @NumberFieldOptional({ int: true })
@@ -38,7 +37,7 @@ export class PartyFilterPartybookingResponse {
   partylocation: string;
   numberofpeople: number;
   isstatus: `${PartyIsstatusEnum}`;
-  img: StorageFile;
+  img: string;
   describe: string;
   requiredage: number;
   admin_id: number;

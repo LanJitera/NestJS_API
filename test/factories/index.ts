@@ -12,7 +12,8 @@ export function partyFactory(rest = {}) {
               admin_id: faker.datatype.number({}),
               describe: faker.datatype.string(255),
               requiredage: faker.datatype.number({"min":-2147483647,"max":2147483646}),
-                ...rest,
+              img: faker.datatype.string(255),
+          ...rest,
   };
 }
 export function partybookingFactory(rest = {}) {

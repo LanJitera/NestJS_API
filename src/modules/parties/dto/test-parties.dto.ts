@@ -1,7 +1,6 @@
 import { Party, IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
 import { NumberFieldOptional } from 'src/decorators/field.decorator';
 import { StatusEnum as PartybookingStatusEnum } from 'entities/partybookings';
-import { StorageFile } from 'entities/storage_files';
 
 export class TestPartyRequestDTO {
   @NumberFieldOptional({ int: true })
@@ -31,7 +30,7 @@ export class TestPartyResponse {
   admin_id: number;
   describe: string;
   requiredage: number;
-  img: StorageFile;
+  img: string;
   partybookings: PartybookingTestPartyResponse[];
 }
 export class TestMessageResponse {}
