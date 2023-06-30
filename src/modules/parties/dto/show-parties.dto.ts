@@ -2,11 +2,8 @@ import { Party, IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
 import {
   NumberField,
   StringFieldOptional,
-  FileFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { FileSystemStoredFile } from 'nestjs-form-data';
-import { StorageFile } from 'entities/storage_files';
 
 export class ShowPartyParamsDTO {
   @NumberField({ int: true })
@@ -17,8 +14,8 @@ export class ShowPartyRequest {
   partylocation?: string;
   @StringFieldOptional({})
   nameparty?: string;
-  @FileFieldOptional({})
-  img?: FileSystemStoredFile;
+  @StringFieldOptional({})
+  img?: string;
 }
 export class ShowPartyRequestDTO {
   @ObjectFieldOptional(ShowPartyRequest)
@@ -50,7 +47,7 @@ export class ShowPartyResponse {
   admin_id: number;
   describe: string;
   requiredage: number;
-  img: StorageFile;
+  img: string;
 }
 export class ShowMessageResponse {}
 
