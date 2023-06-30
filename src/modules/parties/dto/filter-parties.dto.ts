@@ -4,11 +4,8 @@ import {
   DateFieldOptional,
   NumberFieldOptional,
   EnumFieldOptional,
-  FileFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { FileSystemStoredFile } from 'nestjs-form-data';
-import { StorageFile } from 'entities/storage_files';
 
 export class FilterPartyRequest {
   @StringFieldOptional({ maxLength: 255, minLength: 0 })
@@ -27,8 +24,8 @@ export class FilterPartyRequest {
   describe?: string;
   @NumberFieldOptional({ int: true, minimum: -2147483647, maximum: 2147483646 })
   requiredage?: number;
-  @FileFieldOptional({})
-  img?: FileSystemStoredFile;
+  @StringFieldOptional({})
+  img?: string;
 }
 export class FilterPartyRequestDTO {
   @NumberFieldOptional({ int: true })
@@ -64,7 +61,7 @@ export class FilterPartyResponse {
   admin_id: number;
   describe: string;
   requiredage: number;
-  img: StorageFile;
+  img: string;
 }
 export class FilterMessageResponse {}
 
