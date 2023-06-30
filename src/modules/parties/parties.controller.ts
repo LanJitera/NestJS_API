@@ -28,7 +28,6 @@ import {
   TestPartyRequestDTO,
 } from './dto';
 import { ApiNestedQuery } from 'decorators/api-nested-query.decorator';
-import { ApiUpload } from 'decorators/api-upload.decorator';
 
 @Controller()
 @ApiTags('Party')
@@ -50,13 +49,11 @@ export class PartyController {
   }
 
   @MethodPost('/api/parties')
-  @ApiUpload()
   create(@Body() request: CreatePartyRequestDTO): Promise<CreatePartyResponseDTO> {
     return this.partyService.create(request);
   }
 
   @MethodPut('/api/parties/:id')
-  @ApiUpload()
   update(
     @Param() params: UpdatePartyParamsDTO,
     @Body() request: UpdatePartyRequestDTO,
@@ -70,10 +67,7 @@ export class PartyController {
   }
 
   @MethodGet('/api/parties/BookingHistory')
-  @ApiNestedQuery('parties', FilterPartyRequest)
   test(@Query() queries: TestPartyRequestDTO): Promise<TestPartyResponseDTO> {
-  console.log(12345);
-  
     return this.partyService.test(queries);
   }
 }
