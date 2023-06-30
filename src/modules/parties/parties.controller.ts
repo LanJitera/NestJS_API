@@ -37,7 +37,6 @@ export class PartyController {
   @MethodGet('/api/parties')
   @ApiNestedQuery('parties', FilterPartyRequest)
   filter(@Query() queries: FilterPartyRequestDTO): Promise<FilterPartyResponseDTO> {
-  console.log(123);
   
     return this.partyService.filter(queries);
   }
