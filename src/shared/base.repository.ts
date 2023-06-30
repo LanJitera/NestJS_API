@@ -49,6 +49,8 @@ export type CondtionItem = {
   paramName?: string; // use for relation condition
   conditions?: QueryCondition[];
   builder?: ConditionFunction;
+  isDateTime?:boolean;
+  isLowerCase?:boolean;
 };
 export type ConditionFunction = (value: WhereExpressionBuilder) => WhereExpressionBuilder;
 export type QueryCondition = CondtionItem | ConditionFunction;
@@ -217,6 +219,8 @@ export class BaseRepository<T> extends Repository<T> {
         operator,
         builder,
         conditions: childConditions,
+        isDateTime,
+         isLowerCase,
       } = condition;
 
       if (builder) {
@@ -237,7 +241,6 @@ export class BaseRepository<T> extends Repository<T> {
       let statement;
       let params;
       if (value === undefined || value === null || !column) return;
-
 
       const columnName =
         isDateTime
