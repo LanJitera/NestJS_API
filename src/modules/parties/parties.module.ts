@@ -5,10 +5,9 @@ import { PartyService } from './parties.service';
 import { PartyController } from './parties.controller';
 import { PartyRepository } from './parties.repository';
 import { Party } from 'entities/parties';
-import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Party]), NestjsFormDataModule],
+  imports: [TypeOrmModule.forFeature([Party])],
   providers: [provideCustomRepository(Party, PartyRepository), PartyService],
   controllers: [PartyController],
 })

@@ -25,7 +25,6 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { UploadService } from 'src/shared/storage/upload.service';
 import { Party } from 'entities/parties';
 import { PartyRepository } from './parties.repository';
 
@@ -34,7 +33,6 @@ export class PartyService {
   constructor(
     @InjectRepository(Party)
     readonly repository: PartyRepository,
-    private readonly uploadService: UploadService,
   ) {}
 
   async filter(queries: FilterPartyRequestDTO) {
@@ -90,10 +88,10 @@ export class PartyService {
         whereType: QueryWhereType.WHERE_AND,
       },
     ];
+
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
-      { column: 'img', alias: 'img' },
     ];
 
     const pagination: QueryPagination = {
@@ -125,7 +123,6 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
-      { column: 'img', alias: 'img' },
     ];
 
     const entity = await this.repository.getOne({ conditions });
@@ -137,7 +134,6 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
-      { column: 'img', alias: 'img' },
     ];
 
     const data = {
@@ -149,9 +145,7 @@ export class PartyService {
       admin_id: request?.parties?.admin_id,
       describe: request?.parties?.describe,
       requiredage: request?.parties?.requiredage,
-      ...(request?.parties?.img
-        ? { img: await this.uploadService.uploadFile(request?.parties?.img) }
-        : {}),
+      img: request?.parties?.img,
     };
 
     const entity = await this.repository.createOne({ data });
@@ -172,7 +166,6 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
-      { column: 'img', alias: 'img' },
     ];
 
     const data = {
@@ -184,9 +177,7 @@ export class PartyService {
       admin_id: request?.parties?.admin_id,
       describe: request?.parties?.describe,
       requiredage: request?.parties?.requiredage,
-      ...(request?.parties?.img
-        ? { img: await this.uploadService.uploadFile(request?.parties?.img) }
-        : {}),
+      img: request?.parties?.img,
     };
 
     const entity = await this.repository.updateOne({ conditions, data });
@@ -209,7 +200,6 @@ export class PartyService {
     return new DeletePartyResponseDTO();
   }
   async test(queries: TestPartyRequestDTO) {
-   
     const conditions: QueryCondition[] = [
       {
         column: 'partybookings.user_id',
@@ -218,10 +208,9 @@ export class PartyService {
         whereType: QueryWhereType.WHERE,
       },
     ];
-    console.log(queries?.useid,"lanalo");
+
     const relations: QueryRelation[] = [
       { column: 'parties.partybookings', alias: 'partybookings' },
-      { column: 'img', alias: 'img' },
     ];
 
     const pagination: QueryPagination = {

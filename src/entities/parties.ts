@@ -4,12 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
   ManyToOne,
+  JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { StorageFile } from 'entities/storage_files';
 import { Admin } from 'entities/admins';
 import { Partybooking } from 'entities/partybookings';
 
@@ -63,9 +61,8 @@ export class Party {
   @Column({ nullable: true, type: 'integer' })
   requiredage: number;
 
-  @OneToOne(() => StorageFile, { onDelete: 'CASCADE' })
-  @JoinColumn()
-  img: StorageFile;
+  @Column({ nullable: true, type: 'text', default: '' })
+  img: string = '';
 
   @ManyToOne(() => Admin, (admin) => admin.parties, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'admin_id' })
