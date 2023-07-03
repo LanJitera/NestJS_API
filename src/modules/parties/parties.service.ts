@@ -56,6 +56,7 @@ export class PartyService {
         value: queries?.parties?.partylocation.toLowerCase(),
         operator: QueryOperators.START_WITH,
         whereType: QueryWhereType.WHERE_AND,
+        isLowerCase: true
       },
       {
         column: 'numberofpeople',
