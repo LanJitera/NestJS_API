@@ -46,19 +46,19 @@ export class UserService {
         column: 'username',
         value: queries?.users?.username,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'dateofbirth',
         value: queries?.users?.dateofbirth,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'email',
         value: queries?.users?.email,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_OR,
+        whereType: QueryWhereType.WHERE_AND,
       },
       {
         column: 'password',

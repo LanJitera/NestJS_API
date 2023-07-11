@@ -220,7 +220,7 @@ export class BaseRepository<T> extends Repository<T> {
         builder,
         conditions: childConditions,
         isDateTime,
-        isLowerCase,
+         isLowerCase,
       } = condition;
 
       if (builder) {
@@ -241,7 +241,6 @@ export class BaseRepository<T> extends Repository<T> {
       let statement;
       let params;
       if (value === undefined || value === null || !column) return;
-
 
       const columnName =
         isDateTime

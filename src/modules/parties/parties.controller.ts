@@ -33,10 +33,11 @@ import { ApiNestedQuery } from 'decorators/api-nested-query.decorator';
 @ApiTags('Party')
 export class PartyController {
   constructor(private readonly partyService: PartyService) {}
-
+  
   @MethodGet('/api/parties')
   @ApiNestedQuery('parties', FilterPartyRequest)
   filter(@Query() queries: FilterPartyRequestDTO): Promise<FilterPartyResponseDTO> {
+  
     return this.partyService.filter(queries);
   }
 
