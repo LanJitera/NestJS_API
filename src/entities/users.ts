@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Partybooking } from 'entities/partybookings';
+import { Comment } from 'entities/comments';
 
 @Entity('users')
 export class User {
@@ -95,6 +96,10 @@ export class User {
   @OneToMany(() => Partybooking, (partybooking) => partybooking.user, { cascade: true })
   @JoinColumn({ name: 'user_id' })
   partybookings: Partybooking[];
+
+  @OneToMany(() => Comment, (comment) => comment.user, { cascade: true })
+  @JoinColumn({ name: 'user_id' })
+  comments: Comment[];
 
   @BeforeInsert()
   @BeforeUpdate()
