@@ -37,7 +37,6 @@ export AWS_DEFAULT_REGION=ap-northeast-1
 ### Set Github personal access token
 You need to set master key of rails project and database password like below. If you don't could not access, please ask someone.
 ```
-export TF_VAR_rails_master_key=YOUR RAILS MASTER KEY
 export TF_VAR_database_password=YOUR DATABASE PASSWORD
 ```
 
