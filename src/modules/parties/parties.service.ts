@@ -93,6 +93,7 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
+      { column: 'comments', alias: 'comments' },
     ];
 
     const pagination: QueryPagination = {
@@ -124,6 +125,7 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
+      { column: 'comments', alias: 'comments' },
     ];
 
     const entity = await this.repository.getOne({ conditions });
@@ -135,6 +137,7 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
+      { column: 'comments', alias: 'comments' },
     ];
 
     const data = {
@@ -167,6 +170,7 @@ export class PartyService {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
+      { column: 'comments', alias: 'comments' },
     ];
 
     const data = {
