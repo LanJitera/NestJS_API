@@ -126,6 +126,7 @@ export class PartyService {
       { column: 'partybookings', alias: 'partybookings' },
       { column: 'admin', alias: 'admins' },
       { column: 'comments', alias: 'comments' },
+      { column: 'comments.user', alias: 'comments_users' },
     ];
 
     const entity = await this.repository.getOne({ conditions });
