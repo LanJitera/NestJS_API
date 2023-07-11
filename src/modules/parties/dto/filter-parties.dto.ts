@@ -24,7 +24,7 @@ export class FilterPartyRequest {
   describe?: string;
   @NumberFieldOptional({ int: true, minimum: -2147483647, maximum: 2147483646 })
   requiredage?: number;
-  @StringFieldOptional({})
+  @StringFieldOptional({ maxLength: 65535, minLength: 0 })
   img?: string;
 }
 export class FilterPartyRequestDTO {
@@ -47,6 +47,12 @@ export class AdminFilterPartyResponse {
   created_at: Date;
   updated_at: Date;
 }
+export class CommentFilterPartyResponse {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  party_id: number;
+}
 export class FilterPartyResponse {
   id: number;
   created_at: Date;
@@ -62,6 +68,7 @@ export class FilterPartyResponse {
   describe: string;
   requiredage: number;
   img: string;
+  comments: CommentFilterPartyResponse[];
 }
 export class FilterMessageResponse {}
 
@@ -99,6 +106,13 @@ export class FilterPartyResponseDTO {
       describe: party?.describe,
       requiredage: party?.requiredage,
       img: party?.img,
+      comments: party?.comments?.map((comment) => ({
+        ...comment,
+        id: comment?.id,
+        created_at: comment?.created_at,
+        updated_at: comment?.updated_at,
+        party_id: comment?.party_id,
+      })),
     }));
     this.total_pages = total_pages;
     this.message = message;

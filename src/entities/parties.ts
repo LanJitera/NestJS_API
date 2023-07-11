@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Admin } from 'entities/admins';
 import { Partybooking } from 'entities/partybookings';
+import { Comment } from 'entities/comments';
 
 enum IsstatusEnum {
   PUBLIC = 'Public',
@@ -71,6 +72,10 @@ export class Party {
   @OneToMany(() => Partybooking, (partybooking) => partybooking.party, { cascade: true })
   @JoinColumn({ name: 'party_id' })
   partybookings: Partybooking[];
+
+  @OneToMany(() => Comment, (comment) => comment.party, { cascade: true })
+  @JoinColumn({ name: 'party_id' })
+  comments: Comment[];
 }
 
 export { IsstatusEnum };

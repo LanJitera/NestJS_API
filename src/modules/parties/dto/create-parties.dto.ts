@@ -45,6 +45,12 @@ export class AdminCreatePartyResponse {
   created_at: Date;
   updated_at: Date;
 }
+export class CommentCreatePartyResponse {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  party_id: number;
+}
 export class CreatePartyResponse {
   id: number;
   created_at: Date;
@@ -60,6 +66,7 @@ export class CreatePartyResponse {
   describe: string;
   requiredage: number;
   img: string;
+  comments: CommentCreatePartyResponse[];
 }
 export class CreateErrorObjectResponse {}
 
@@ -95,6 +102,13 @@ export class CreatePartyResponseDTO {
       describe: party?.describe,
       requiredage: party?.requiredage,
       img: party?.img,
+      comments: party?.comments?.map((comment) => ({
+        ...comment,
+        id: comment?.id,
+        created_at: comment?.created_at,
+        updated_at: comment?.updated_at,
+        party_id: comment?.party_id,
+      })),
     };
     this.error_object = error_object;
   }

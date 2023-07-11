@@ -30,6 +30,13 @@ export class PartybookingShowUserResponse {
   updated_at: Date;
   user_id: number;
 }
+export class CommentShowUserResponse {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  party_id: number;
+  user_id: number;
+}
 export class ShowUserResponse {
   id: number;
   created_at: Date;
@@ -40,6 +47,7 @@ export class ShowUserResponse {
   password: string;
   dateofbirth: Date;
   email: string;
+  comments: CommentShowUserResponse[];
 }
 export class ShowMessageResponse {}
 
@@ -65,6 +73,14 @@ export class ShowUserResponseDTO {
       password: user?.password,
       dateofbirth: user?.dateofbirth,
       email: user?.email,
+      comments: user?.comments?.map((comment) => ({
+        ...comment,
+        id: comment?.id,
+        created_at: comment?.created_at,
+        updated_at: comment?.updated_at,
+        party_id: comment?.party_id,
+        user_id: comment?.user_id,
+      })),
     };
     this.message = message;
   }

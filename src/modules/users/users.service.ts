@@ -60,9 +60,18 @@ export class UserService {
         operator: QueryOperators.START_WITH,
         whereType: QueryWhereType.WHERE_AND,
       },
+      {
+        column: 'password',
+        value: queries?.users?.password,
+        operator: QueryOperators.START_WITH,
+        whereType: QueryWhereType.WHERE_OR,
+      },
     ];
 
-    const relations: QueryRelation[] = [{ column: 'partybookings', alias: 'partybookings' }];
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'comments', alias: 'comments' },
+    ];
 
     const pagination: QueryPagination = {
       page: queries?.pagination_page,
@@ -90,7 +99,10 @@ export class UserService {
       },
     ];
 
-    const relations: QueryRelation[] = [{ column: 'partybookings', alias: 'partybookings' }];
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'comments', alias: 'comments' },
+    ];
 
     const entity = await this.repository.getOne({ conditions });
     const show = await this.repository.getRelations(entity, { relations });
@@ -98,13 +110,17 @@ export class UserService {
     return new ShowUserResponseDTO(show);
   }
   async create(request: CreateUserRequestDTO) {
-    const relations: QueryRelation[] = [{ column: 'partybookings', alias: 'partybookings' }];
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'comments', alias: 'comments' },
+    ];
 
     const data = {
       isactive: request?.users?.isactive,
       username: request?.users?.username,
       dateofbirth: request?.users?.dateofbirth,
       email: request?.users?.email,
+      password: request?.users?.password,
     };
 
     const entity = await this.repository.createOne({ data });
@@ -122,13 +138,17 @@ export class UserService {
       },
     ];
 
-    const relations: QueryRelation[] = [{ column: 'partybookings', alias: 'partybookings' }];
+    const relations: QueryRelation[] = [
+      { column: 'partybookings', alias: 'partybookings' },
+      { column: 'comments', alias: 'comments' },
+    ];
 
     const data = {
       isactive: request?.users?.isactive,
       username: request?.users?.username,
       dateofbirth: request?.users?.dateofbirth,
       email: request?.users?.email,
+      password: request?.users?.password,
     };
 
     const entity = await this.repository.updateOne({ conditions, data });
