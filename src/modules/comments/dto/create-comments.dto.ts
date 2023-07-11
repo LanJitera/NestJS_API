@@ -1,5 +1,10 @@
 import { Comment } from 'entities/comments';
-import { NumberField, StringField, ObjectField } from 'src/decorators/field.decorator';
+import {
+  NumberField,
+  StringFieldOptional,
+  NumberFieldOptional,
+  ObjectField,
+} from 'src/decorators/field.decorator';
 import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
 
 export class CreateCommentRequest {
@@ -7,10 +12,10 @@ export class CreateCommentRequest {
   party_id: number;
   @NumberField({ int: true })
   user_id: number;
-  @StringField({ maxLength: 65535, minLength: 0 })
-  comment: string;
-  @NumberField({ int: true, minimum: -2147483647, maximum: 2147483646 })
-  id_cmtrep: number;
+  @StringFieldOptional({ maxLength: 65535, minLength: 0 })
+  comment?: string;
+  @NumberFieldOptional({ int: true, minimum: -2147483647, maximum: 2147483646 })
+  id_cmtrep?: number;
 }
 export class CreateCommentRequestDTO {
   @ObjectField(CreateCommentRequest)
