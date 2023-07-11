@@ -39,3 +39,12 @@ export function adminFactory(rest = {}) {
                                                                                                                 ...rest,
   };
 }
+export function commentFactory(rest = {}) {
+  return {
+                            party_id: faker.datatype.number({}),
+              user_id: faker.datatype.number({}),
+              comment: faker.datatype.string(255),
+              id_cmtrep: faker.datatype.number({"min":-2147483647,"max":2147483646}),
+          ...rest,
+  };
+}

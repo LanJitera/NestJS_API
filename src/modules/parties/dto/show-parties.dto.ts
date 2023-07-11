@@ -33,6 +33,12 @@ export class AdminShowPartyResponse {
   created_at: Date;
   updated_at: Date;
 }
+export class CommentShowPartyResponse {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  party_id: number;
+}
 export class ShowPartyResponse {
   id: number;
   created_at: Date;
@@ -48,6 +54,7 @@ export class ShowPartyResponse {
   describe: string;
   requiredage: number;
   img: string;
+  comments: CommentShowPartyResponse[];
 }
 export class ShowMessageResponse {}
 
@@ -83,6 +90,13 @@ export class ShowPartyResponseDTO {
       describe: party?.describe,
       requiredage: party?.requiredage,
       img: party?.img,
+      comments: party?.comments?.map((comment) => ({
+        ...comment,
+        id: comment?.id,
+        created_at: comment?.created_at,
+        updated_at: comment?.updated_at,
+        party_id: comment?.party_id,
+      })),
     };
     this.message = message;
   }

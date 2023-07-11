@@ -16,7 +16,7 @@ export class FilterUserRequest {
   dateofbirth?: Date;
   @StringFieldOptional({ email: true, maxLength: 255, minLength: 0 })
   email?: string;
-  @StringFieldOptional({})
+  @StringFieldOptional({ maxLength: 65535, minLength: 0, password: true })
   password?: string;
 }
 export class FilterUserRequestDTO {
@@ -33,6 +33,13 @@ export class PartybookingFilterUserResponse {
   updated_at: Date;
   user_id: number;
 }
+export class CommentFilterUserResponse {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  party_id: number;
+  user_id: number;
+}
 export class FilterUserResponse {
   id: number;
   created_at: Date;
@@ -43,6 +50,7 @@ export class FilterUserResponse {
   password: string;
   dateofbirth: Date;
   email: string;
+  comments: CommentFilterUserResponse[];
 }
 export class FilterMessageResponse {}
 
@@ -70,6 +78,14 @@ export class FilterUserResponseDTO {
       password: user?.password,
       dateofbirth: user?.dateofbirth,
       email: user?.email,
+      comments: user?.comments?.map((comment) => ({
+        ...comment,
+        id: comment?.id,
+        created_at: comment?.created_at,
+        updated_at: comment?.updated_at,
+        party_id: comment?.party_id,
+        user_id: comment?.user_id,
+      })),
     }));
     this.total_pages = total_pages;
     this.message = message;
