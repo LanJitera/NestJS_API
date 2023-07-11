@@ -30,10 +30,10 @@ export class Comment {
   @Column({ nullable: false, type: 'integer' })
   user_id: number;
 
-  @Column({ nullable: false, type: 'text' })
-  comment: string;
+  @Column({ nullable: true, type: 'text', default: '' })
+  comment: string = '';
 
-  @Column({ nullable: false, type: 'integer' })
+  @Column({ nullable: true, type: 'integer' })
   id_cmtrep: number;
 
   @ManyToOne(() => Party, (party) => party.comments, { onDelete: 'CASCADE' })
