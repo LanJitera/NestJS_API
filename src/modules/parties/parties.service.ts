@@ -25,7 +25,7 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { Party } from 'entities/parties';
+import { Party } from '@entities/parties';
 import { PartyRepository } from './parties.repository';
 
 @Injectable()
@@ -39,60 +39,63 @@ export class PartyService {
     const conditions: QueryCondition[] = [
       {
         column: 'nameparty',
-        value: queries?.parties?.nameparty.toLowerCase(),
+        value: queries?.parties?.nameparty,
         operator: QueryOperators.START_WITH,
         whereType: QueryWhereType.WHERE,
-        isLowerCase: true
       },
       {
         column: 'partystarttime',
         value: queries?.parties?.partystarttime,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
-        isDateTime: true,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'partylocation',
-        value: queries?.parties?.partylocation.toLowerCase(),
+        value: queries?.parties?.partylocation,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_AND,
-        isLowerCase: true
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'numberofpeople',
         value: queries?.parties?.numberofpeople,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'isstatus',
         value: queries?.parties?.isstatus,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'admin_id',
         value: queries?.parties?.admin_id,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'describe',
         value: queries?.parties?.describe,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'requiredage',
         value: queries?.parties?.requiredage,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'img',
+        value: queries?.parties?.img,
+        operator: QueryOperators.START_WITH,
+        whereType: QueryWhereType.WHERE_OR,
       },
     ];
 
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
-      { column: 'admin', alias: 'admins' },
+      { column: 'admin', alias: 'admin' },
       { column: 'comments', alias: 'comments' },
     ];
 
@@ -124,9 +127,9 @@ export class PartyService {
 
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
-      { column: 'admin', alias: 'admins' },
+      { column: 'admin', alias: 'admin' },
       { column: 'comments', alias: 'comments' },
-      { column: 'comments.user', alias: 'comments_users' },
+      { column: 'comments.user', alias: 'comments_user' },
     ];
 
     const entity = await this.repository.getOne({ conditions });
@@ -137,7 +140,7 @@ export class PartyService {
   async create(request: CreatePartyRequestDTO) {
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
-      { column: 'admin', alias: 'admins' },
+      { column: 'admin', alias: 'admin' },
       { column: 'comments', alias: 'comments' },
     ];
 
@@ -170,7 +173,7 @@ export class PartyService {
 
     const relations: QueryRelation[] = [
       { column: 'partybookings', alias: 'partybookings' },
-      { column: 'admin', alias: 'admins' },
+      { column: 'admin', alias: 'admin' },
       { column: 'comments', alias: 'comments' },
     ];
 

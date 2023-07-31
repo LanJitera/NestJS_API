@@ -2,7 +2,7 @@ import { MailerOptionsFactory } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NODE_ENV } from 'constants/index';
+import { NODE_ENV } from '@constants/index';
 import { join } from 'path';
 
 @Injectable()

@@ -1,10 +1,10 @@
-import { Comment } from 'entities/comments';
+import { Comment } from '@entities/comments';
 import {
   NumberFieldOptional,
   StringFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class FilterCommentRequest {
   @NumberFieldOptional({ int: true })

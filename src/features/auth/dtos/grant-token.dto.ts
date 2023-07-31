@@ -1,5 +1,5 @@
 import { ValidateIf } from 'class-validator';
-import { EnumField, StringField, StringFieldOptional } from 'decorators/field.decorator';
+import { EnumField, StringField, StringFieldOptional } from '@decorators/field.decorator';
 import { OAUTH_GRANT_TYPE } from 'src/constants';
 import { ScopeEnum } from './scope.dto';
 

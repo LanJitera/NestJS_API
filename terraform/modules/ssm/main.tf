@@ -21,11 +21,6 @@ resource "aws_ssm_parameter" "ecr_image_name" {
   value = var.web_container_name
 }
 
-resource "aws_ssm_parameter" "rails_master_key" {
-  name  = "/${var.name}/rails_master_key"
-  type  = "SecureString"
-  value = var.rails_master_key
-}
 resource "aws_ssm_parameter" "docker_username" {
   name  = "/${var.name}/docker_username"
   type  = "SecureString"

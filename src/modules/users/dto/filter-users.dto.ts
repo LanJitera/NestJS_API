@@ -1,8 +1,9 @@
-import { User } from 'entities/users';
+import { User, RoleEnum as UserRoleEnum } from '@entities/users';
 import {
   BooleanFieldOptional,
   StringFieldOptional,
   DateFieldOptional,
+  EnumFieldOptional,
   NumberFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
@@ -18,6 +19,8 @@ export class FilterUserRequest {
   email?: string;
   @StringFieldOptional({ maxLength: 65535, minLength: 0, password: true })
   password?: string;
+  @EnumFieldOptional(() => UserRoleEnum)
+  role?: UserRoleEnum;
 }
 export class FilterUserRequestDTO {
   @NumberFieldOptional({ int: true })
@@ -51,6 +54,7 @@ export class FilterUserResponse {
   dateofbirth: Date;
   email: string;
   comments: CommentFilterUserResponse[];
+  role: `${UserRoleEnum}`;
 }
 export class FilterMessageResponse {}
 
@@ -86,6 +90,7 @@ export class FilterUserResponseDTO {
         party_id: comment?.party_id,
         user_id: comment?.user_id,
       })),
+      role: user?.role,
     }));
     this.total_pages = total_pages;
     this.message = message;

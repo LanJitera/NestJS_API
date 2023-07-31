@@ -25,7 +25,7 @@
 ## Setup
 
 Setup procedure of development environment.
-Run `cp env.example .env`
+Run `cp .env.example .env`
 
 ### Docker environment
 
@@ -180,7 +180,7 @@ SWAGGER_PASSWORD=swagger
 Import `repository` into module
 
 ```typescript
-import { Applicant } from 'entities/applicants';
+import { Applicant } from '@entities/applicants';
 import { ApplicantRepository } from './applicants.repository';
 import { provideCustomRepository } from 'src/utils/repository';
 
@@ -433,7 +433,7 @@ We're using this the library [nestjs-form-data](https://github.com/dmitriy-nz/ne
 Define file attachment in entity database:
 
 ```typescript
-import { StorageFile } from 'entities/storage_files'
+import { StorageFile } from '@entities/storage_files'
 import { OneToOne, JoinColumn,  ManyToMany, JoinTable } from 'typeorm';
 
 export FeatureEntity {
@@ -473,7 +473,7 @@ Add ApiUpload decorator in controller action
 
 ```typescript
 // feature.controller.ts
-import { ApiUpload } from 'decorators/api-upload.decorator.ts';
+import { ApiUpload } from '@decorators/api-upload.decorator.ts';
 
 export class FeatureController {
   @Post('/api/upload')

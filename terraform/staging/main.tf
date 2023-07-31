@@ -1,16 +1,3 @@
-provider "aws" {
-  shared_credentials_file = "./.aws"
-  region                  = "ap-northeast-1"
-}
-terraform {
-  backend "s3" {
-    bucket                  = ""
-    key                     = "party-booking-app-staging/terraform.tfstate"
-    region                  = "ap-northeast-1"
-    shared_credentials_file = "./.aws"
-  }
-}
-
 locals {
   # underscore is prefereble according to official terraform bestpractice, but alb only accepts hyphen based name.
   # Moreover, terraform AWS provider v3.12.0 (via Terraform 0.14) has issue #7987 related to "Provider produced inconsistent final plan".
@@ -58,7 +45,7 @@ module "alb" {
   vpc_id               = module.vpc.vpc_id
   security_groups      = [module.security_group.alb_sg_id]
   subnets              = module.vpc.public_subnets
-  access_log_bucket_id = module.s3.access_log_bucket_name
+  access_log_bucket_id = module.s3.access_log_bucket_id
   lb_healthcheck_path  = var.lb_healthcheck_path
   ssl_cert_arn         = module.route53.certificate_arn
   domain               = var.domain
@@ -73,7 +60,6 @@ module "waf" {
   s3_bucket                    = module.s3.waf_bucket_arn
 }
 
-
 module "ecs" {
   source                             = "../modules/ecs"
   name                               = var.name
@@ -87,12 +73,11 @@ module "ecs" {
   database_password_arn              = module.ssm.database_password_arn
   database_name                      = var.database_name
   database_user                      = var.database_user
-  rails_master_key_arn               = module.ssm.rails_master_key_arn
   env                                = var.env
   redis_address_arn                  = module.ssm.redis_address_arn
   git_token_arn                      = module.ssm.git_token_arn
   ecs_exec_kms_arn                   = module.kms.ecs_exec_kms_arn
-  ecs_exec_s3_bucket_name            = module.s3.ecs_exec_bucket_name
+  ecs_exec_s3_bucket_name            = module.s3.ecs_exec_bucket_id
   cloudwatch_log_group_ecs_exec_name = module.cloudwatch.log_group_ecs_exec_name
   rollbar_token_arn                  = module.ssm.rollbar_token_arn
   ses_secret_key_arn                 = module.ssm.ses_secret_key_arn
@@ -122,7 +107,6 @@ module "ssm" {
   name               = var.name
   database_password  = var.database_password
   database_host      = trim(module.rds.db_endpoint, ":5432")
-  rails_master_key   = var.rails_master_key
   web_container_name = var.name
   docker_username    = var.docker_username
   docker_password    = var.docker_password
@@ -155,7 +139,7 @@ module "iam" {
   codepipeline_bucket_arn = module.s3.pipeline_artifact_bucket_arn
   cloudwatch_arn          = module.cloudwatch.log_group_codebuild_arn
   ecr_arn                 = module.ecr.web_arn
-  ecs_exec_bucket_name    = module.s3.ecs_exec_bucket_name
+  ecs_exec_bucket_name    = module.s3.ecs_exec_bucket_id
   ecs_exec_kms_key_arn    = module.kms.ecs_exec_kms_arn
   iam_user_name           = var.iam_user_name
 }
@@ -166,7 +150,7 @@ module "iam_developer" {
 }
 
 module "codepipeline" {
-  source             = "../modules/codepipeline"
+  source             = "../modules/developer-tools/codepipeline"
   name               = var.name
   env                = var.env
   iam_arn            = module.iam.codepipeline_arn
@@ -180,7 +164,7 @@ module "codepipeline" {
 }
 
 module "codebuild" {
-  source                    = "../modules/codebuild"
+  source                    = "../modules/developer-tools/codebuild"
   name                      = var.name
   env                       = var.env
   vpc_id                    = module.vpc.vpc_id
@@ -191,7 +175,7 @@ module "codebuild" {
 }
 
 module "codedeploy" {
-  source                = "../modules/codedeploy"
+  source                = "../modules/developer-tools/codedeploy"
   name                  = var.name
   iam_arn               = module.iam.codedeploy_arn
   ecs_web_service_name  = module.ecs.web_service_name
@@ -209,7 +193,7 @@ module "elasticache" {
   security_groups     = [module.security_group.redis_security_group_id]
 }
 module "codepipeline_notification" {
-  source               = "../modules/sns"
+  source               = "../modules/developer-tools/sns"
   name                 = var.name
   slack_channel_id     = var.slack_channel_id
   slack_workspace_id   = var.slack_workspace_id
@@ -231,5 +215,4 @@ module "dashboard" {
   redis_name                                    = module.elasticache.name
   database_max_simultaneous_connections_warning = var.database_max_connections
 }
-
 
