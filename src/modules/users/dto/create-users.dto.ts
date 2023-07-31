@@ -1,9 +1,10 @@
-import { User } from 'entities/users';
+import { User, RoleEnum as UserRoleEnum } from '@entities/users';
 import {
   BooleanFieldOptional,
   StringField,
   DateField,
   StringFieldOptional,
+  EnumFieldOptional,
   ObjectField,
 } from 'src/decorators/field.decorator';
 
@@ -18,6 +19,8 @@ export class CreateUserRequest {
   email: string;
   @StringFieldOptional({ maxLength: 65535, minLength: 0, password: true })
   password?: string;
+  @EnumFieldOptional(() => UserRoleEnum)
+  role?: UserRoleEnum;
 }
 export class CreateUserRequestDTO {
   @ObjectField(CreateUserRequest)
@@ -47,6 +50,7 @@ export class CreateUserResponse {
   dateofbirth: Date;
   email: string;
   comments: CommentCreateUserResponse[];
+  role: `${UserRoleEnum}`;
 }
 export class CreateErrorObjectResponse {}
 
@@ -80,6 +84,7 @@ export class CreateUserResponseDTO {
         party_id: comment?.party_id,
         user_id: comment?.user_id,
       })),
+      role: user?.role,
     };
     this.error_object = error_object;
   }

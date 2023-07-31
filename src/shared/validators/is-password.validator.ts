@@ -1,6 +1,6 @@
 import { ValidateBy, ValidationArguments, ValidationOptions } from 'class-validator';
 import { ConfigService } from '@nestjs/config';
-import configs from 'configs/index';
+import configs from '@configs/index';
 
 const configService = new ConfigService(configs());
 

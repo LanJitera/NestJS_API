@@ -1,4 +1,4 @@
-import { StringField } from 'decorators/field.decorator';
+import { StringField } from '@decorators/field.decorator';
 
 export class VerifyConfirmationDTO {
   @StringField()

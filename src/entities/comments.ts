@@ -7,8 +7,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Party } from 'entities/parties';
-import { User } from 'entities/users';
+import { Party } from '@entities/parties';
+import { User } from '@entities/users';
 
 @Entity('comments')
 export class Comment {

@@ -28,6 +28,4 @@ variable "waf_web_acl" {
 
 variable "database_max_connections" { 
   description = "Maximum number of connections"
-  default     = ""
-  
 }

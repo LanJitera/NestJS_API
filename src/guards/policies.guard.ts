@@ -5,9 +5,9 @@ import {
   POLICY_KEY,
   ACTION_KEY,
   RESOURCE_ENTITY_KEY,
-} from 'decorators/policy.decorator';
+} from '@decorators/policy.decorator';
 import { DataSource } from 'typeorm';
-import { DEFAULT_ACTIONS } from 'constants/index';
+import { DEFAULT_ACTIONS } from '@constants/index';
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {

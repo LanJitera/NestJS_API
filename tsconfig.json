@@ -18,13 +18,13 @@
     "forceConsistentCasingInFileNames": false,  
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "configs/*": ["src/configs/*"],
-      "entities/*": ["src/entities/*"],
-      "constants/*": ["src/constants/*"],      
-      "modules/*": ["src/modules/*"],
-      "guards/*": ["src/guards/*"],
-      "decorators/*": ["src/decorators/*"],
-      "features/*": ["src/features/*"]
+      "@configs/*": ["src/configs/*"],
+      "@entities/*": ["src/entities/*"],
+      "@constants/*": ["src/constants/*"],      
+      "@modules/*": ["src/modules/*"],
+      "@guards/*": ["src/guards/*"],
+      "@decorators/*": ["src/decorators/*"],
+      "@features/*": ["src/features/*"]
     },
   }
 }

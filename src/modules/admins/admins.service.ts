@@ -24,7 +24,7 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import { AdminRepository } from './admins.repository';
 
 @Injectable()
