@@ -25,15 +25,16 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { Party } from 'entities/parties';
+
 import { PartyRepository } from './parties.repository';
+import { Party } from '@entities/parties';
 
 @Injectable()
 export class PartyService {
   constructor(
     @InjectRepository(Party)
     readonly repository: PartyRepository,
-  ) {}
+  ) { }
 
   async filter(queries: FilterPartyRequestDTO) {
     const conditions: QueryCondition[] = [
