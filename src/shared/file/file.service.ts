@@ -1,6 +1,7 @@
 import { ISendMailOptions } from '@nestjs-modules/mailer';
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, Logger, CACHE_MANAGER, Inject } from '@nestjs/common';
+import { Injectable, Logger, Inject, CACHE_MANAGER } from '@nestjs/common';
+
 import { Queue } from 'bull';
 import { Cache } from 'cache-manager';
 import { FILE_QUEUE, RESIZE_IMAGE_JOB } from './file.constants';

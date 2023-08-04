@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from 'constants/index';
+import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '@constants/index';
 
 type ClassType<T> = {
   new (...args: unknown[]): T;

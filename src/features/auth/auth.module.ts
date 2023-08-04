@@ -4,10 +4,10 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import TokenStrategy from './strategies/token.strategy';
 import { ConfigService } from '@nestjs/config';
-import { Admin } from 'entities/admins';
-import { User } from 'entities/users';
+import { Admin } from '@entities/admins';
+import { User } from '@entities/users';
 
-import { AccessToken } from 'entities/access_tokens';
+import { AccessToken } from '@entities/access_tokens';
 import { OAuthService } from './auth.service';
 import { OAuthController } from './auth.controller';
 import RefreshTokenStrategy from './strategies/refresh-token.strategy';

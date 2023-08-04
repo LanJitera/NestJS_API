@@ -26,7 +26,7 @@ import {
   DeleteUserParamsDTO,
   DeleteUserRequestDTO,
 } from './dto';
-import { ApiNestedQuery } from 'decorators/api-nested-query.decorator';
+import { ApiNestedQuery } from '@decorators/api-nested-query.decorator';
 
 @Controller()
 @ApiTags('User')

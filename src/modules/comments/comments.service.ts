@@ -22,7 +22,7 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { Comment } from 'entities/comments';
+import { Comment } from '@entities/comments';
 import { CommentRepository } from './comments.repository';
 
 @Injectable()
@@ -61,8 +61,8 @@ export class CommentService {
     ];
 
     const relations: QueryRelation[] = [
-      { column: 'party', alias: 'parties' },
-      { column: 'user', alias: 'users' },
+      { column: 'party', alias: 'party' },
+      { column: 'user', alias: 'user' },
     ];
 
     const pagination: QueryPagination = {
@@ -92,8 +92,8 @@ export class CommentService {
     ];
 
     const relations: QueryRelation[] = [
-      { column: 'party', alias: 'parties' },
-      { column: 'user', alias: 'users' },
+      { column: 'party', alias: 'party' },
+      { column: 'user', alias: 'user' },
     ];
 
     const entity = await this.repository.getOne({ conditions });
@@ -103,8 +103,8 @@ export class CommentService {
   }
   async create(request: CreateCommentRequestDTO) {
     const relations: QueryRelation[] = [
-      { column: 'party', alias: 'parties' },
-      { column: 'user', alias: 'users' },
+      { column: 'party', alias: 'party' },
+      { column: 'user', alias: 'user' },
     ];
 
     const data = {
@@ -130,8 +130,8 @@ export class CommentService {
     ];
 
     const relations: QueryRelation[] = [
-      { column: 'party', alias: 'parties' },
-      { column: 'user', alias: 'users' },
+      { column: 'party', alias: 'party' },
+      { column: 'user', alias: 'user' },
     ];
 
     const data = {
