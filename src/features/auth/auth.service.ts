@@ -10,9 +10,9 @@ import { JwtDto } from './dtos/jwt.dto';
 import * as SignUpDto from './dtos/sign-up.dto';
 import { GrantTokenDto } from './dtos/grant-token.dto';
 import { ScopeEnum } from './dtos/scope.dto';
-import { Admin } from 'entities/admins';
-import { User } from 'entities/users';
-import { AccessToken } from 'entities/access_tokens';
+import { Admin } from '@entities/admins';
+import { User } from '@entities/users';
+import { AccessToken } from '@entities/access_tokens';
 
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -47,7 +47,7 @@ export class OAuthService {
           },
           [OAUTH_GRANT_TYPE.REFRESH_TOKEN]: () => this.refreshToken(grantTokenDto.refresh_token),
         };
-        return await actionAdminByGrantTypes[grantTokenDto.grant_type]();
+        return actionAdminByGrantTypes[grantTokenDto.grant_type]();
       case 'users':
         const actionUserByGrantTypes = {
           [OAUTH_GRANT_TYPE.PASSWORD]: () => {
@@ -55,7 +55,7 @@ export class OAuthService {
           },
           [OAUTH_GRANT_TYPE.REFRESH_TOKEN]: () => this.refreshToken(grantTokenDto.refresh_token),
         };
-        return await actionUserByGrantTypes[grantTokenDto.grant_type]();
+        return actionUserByGrantTypes[grantTokenDto.grant_type]();
       default:
         throw new BadRequestException(`scope ${grantTokenDto.scope} is not supported.`);
     }
@@ -106,7 +106,7 @@ export class OAuthService {
         expires_in: ms(this.jwtConfig.expiresIn),
         token_type: 'Bearer',
         scope: scope,
-        create_at: newAccessToken.created_at,
+        created_at: newAccessToken.created_at,
         refresh_token_expires_in: ms(this.jwtConfig.refreshIn),
       };
     } catch (e) {
@@ -207,10 +207,6 @@ export class OAuthService {
     }
 
     if (this.configService.get('authentication.sendConfirmationEmail') && !user.confirmed_at) {
-      throw new ForbiddenException(await I18nContext.current().translate('app.users.unconfirmed'));
-    }
-
-    if (!user.confirmed_at) {
       throw new ForbiddenException(await I18nContext.current().translate('app.users.unconfirmed'));
     }
 
@@ -354,7 +350,7 @@ export class OAuthService {
   }
 
   async verifyAdminResetPassword(data: VerifyResetPasswordDTO) {
-    const { reset_token, password } = data;
+    const { reset_token, password, password_confirmation } = data;
 
     const user = await this.adminRepo.findOneBy({ reset_password_token: reset_token });
 
@@ -372,6 +368,12 @@ export class OAuthService {
     if (dayjs().isAfter(resetTokenExpireTime)) {
       throw new BadRequestException(
         await I18nContext.current().translate('app.reset_token.expired'),
+      );
+    }
+
+    if (password !== password_confirmation) {
+      throw new BadRequestException(
+        await I18nContext.current().translate('app.passwords.confirmation_not_match'),
       );
     }
 
@@ -473,10 +475,6 @@ export class OAuthService {
     }
 
     if (this.configService.get('authentication.sendConfirmationEmail') && !user.confirmed_at) {
-      throw new ForbiddenException(await I18nContext.current().translate('app.users.unconfirmed'));
-    }
-
-    if (!user.confirmed_at) {
       throw new ForbiddenException(await I18nContext.current().translate('app.users.unconfirmed'));
     }
 
@@ -621,7 +619,7 @@ export class OAuthService {
   }
 
   async verifyUserResetPassword(data: VerifyResetPasswordDTO) {
-    const { reset_token, password } = data;
+    const { reset_token, password, password_confirmation } = data;
 
     const user = await this.userRepo.findOneBy({ reset_password_token: reset_token });
 
@@ -639,6 +637,12 @@ export class OAuthService {
     if (dayjs().isAfter(resetTokenExpireTime)) {
       throw new BadRequestException(
         await I18nContext.current().translate('app.reset_token.expired'),
+      );
+    }
+
+    if (password !== password_confirmation) {
+      throw new BadRequestException(
+        await I18nContext.current().translate('app.passwords.confirmation_not_match'),
       );
     }
 
@@ -672,7 +676,7 @@ export class OAuthService {
   private async _generateAccessToken(
     payload: Pick<JwtDto, 'userId' | 'scope' | 'resourceOwner'>,
   ): Promise<string> {
-    return await this.jwtService.signAsync(payload, {
+    return this.jwtService.signAsync(payload, {
       expiresIn: this.jwtConfig.expiresIn,
     });
   }

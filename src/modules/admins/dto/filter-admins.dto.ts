@@ -1,10 +1,10 @@
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import {
   StringFieldOptional,
   NumberFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class FilterAdminRequest {
   @StringFieldOptional({ maxLength: 255, minLength: 0 })

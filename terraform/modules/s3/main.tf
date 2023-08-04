@@ -1,11 +1,13 @@
-
 module "access_log_s3_bucket" {
   source                         = "terraform-aws-modules/s3-bucket/aws"
-  version                        = "3.5.0"
-  bucket                         = var.access_log_name
+  version                        = "3.14.0"
+  bucket                         = "${var.name}-access-log"
   acl                            = "log-delivery-write"
   force_destroy                  = true
   attach_elb_log_delivery_policy = true
+  control_object_ownership       = true
+  object_ownership               = "ObjectWriter"
+
   tags = {
     Terraform = "true"
   }
@@ -26,10 +28,12 @@ module "access_log_s3_bucket" {
 
 module "pipeline_artifact_s3_bucket" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.pipeline_artifact_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-pipeline-artifact"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -50,10 +54,12 @@ module "pipeline_artifact_s3_bucket" {
 
 module "vpc_flow_s3_bucket" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.vpc_flow_log_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-vpc-flow"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -74,10 +80,12 @@ module "vpc_flow_s3_bucket" {
 
 module "cloudwatch_log_groups" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.cloudwatch_log_group_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-cloudwatch-log-groups"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -95,7 +103,7 @@ module "cloudwatch_log_groups" {
             "Service": "logs.ap-northeast-1.amazonaws.com"
         },
         "Action": "s3:GetBucketAcl",
-        "Resource": "arn:aws:s3:::${var.cloudwatch_log_group_name}"
+        "Resource": "arn:aws:s3:::${var.name}-cloudwatch-log-groups"
     },
     {
         "Effect": "Allow",
@@ -103,7 +111,7 @@ module "cloudwatch_log_groups" {
             "Service": "logs.ap-northeast-1.amazonaws.com"
         },
         "Action": "s3:PutObject",
-        "Resource": "arn:aws:s3:::${var.cloudwatch_log_group_name}/*",
+        "Resource": "arn:aws:s3:::${var.name}-cloudwatch-log-groups/*",
         "Condition": {
             "StringEquals": {
                 "s3:x-amz-acl": "bucket-owner-full-control"
@@ -115,37 +123,41 @@ module "cloudwatch_log_groups" {
 EOF
 }
 
-resource "aws_s3_bucket" "exec_ssh" {
-  bucket = var.ecs_exec_bucket_name
-  acl    = "private"
-
-  versioning {
-    enabled = true
-  }
-
+module "exec_ssh" {
+  source        = "terraform-aws-modules/s3-bucket/aws"
+  version       = "3.14.0"
+  bucket        = "${var.name}-exec-ssh"
+  acl           = "private"
+  force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
-  lifecycle_rule {
-    id      = "log"
+  versioning = {
     enabled = true
-    tags = {
-      rule      = "log"
-      autoclean = "true"
-    }
-    expiration {
-      days = 365
-    }
   }
+  lifecycle_rule = [
+    {
+      id      = "log"
+      enabled = true
+
+      expiration = {
+        days = 365
+      }
+    }
+  ]
 }
 
 # CloudTrail
 module "cloutrail_bucket" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.cloudtrail_bucket_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-cloudtrail"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -175,7 +187,7 @@ module "cloutrail_bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${var.cloudtrail_bucket_name}"
+            "Resource": "arn:aws:s3:::${var.name}-cloudtrail"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -184,7 +196,7 @@ module "cloutrail_bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${var.cloudtrail_bucket_name}/AWSLogs/${var.aws_account_id}/*",
+            "Resource": "arn:aws:s3:::${var.name}-cloudtrail/AWSLogs/${var.aws_account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
@@ -198,10 +210,12 @@ EOF
 
 module "athena_output_s3_bucket" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.athena_output_bucket_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-athena-output"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -223,10 +237,12 @@ module "athena_output_s3_bucket" {
 # Cloudwatch Exporter
 module "rds_bucket_name" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.rds_bucket_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-rds-exporter"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -251,13 +267,13 @@ module "rds_bucket_name" {
       {
           "Action": "s3:GetBucketAcl",
           "Effect": "Allow",
-          "Resource": "arn:aws:s3:::${var.rds_bucket_name}",
+          "Resource": "arn:aws:s3:::${var.name}-rds-exporter",
           "Principal": { "Service": "logs.ap-northeast-1.amazonaws.com" }
       },
       {
           "Action": "s3:PutObject" ,
           "Effect": "Allow",
-          "Resource": "arn:aws:s3:::${var.rds_bucket_name}/*",
+          "Resource": "arn:aws:s3:::${var.name}-rds-exporter/*",
           "Condition": { "StringEquals": { "s3:x-amz-acl": "bucket-owner-full-control" } },
           "Principal": { "Service": "logs.ap-northeast-1.amazonaws.com" }
       }
@@ -267,10 +283,12 @@ module "rds_bucket_name" {
 }
 module "codebuild_bucket_name" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.codebuild_bucket_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-codebuild"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -295,13 +313,13 @@ module "codebuild_bucket_name" {
       {
           "Action": "s3:GetBucketAcl",
           "Effect": "Allow",
-          "Resource": "arn:aws:s3:::${var.codebuild_bucket_name}",
+          "Resource": "arn:aws:s3:::${var.name}-codebuild",
           "Principal": { "Service": "logs.ap-northeast-1.amazonaws.com" }
       },
       {
           "Action": "s3:PutObject" ,
           "Effect": "Allow",
-          "Resource": "arn:aws:s3:::${var.codebuild_bucket_name}/*",
+          "Resource": "arn:aws:s3:::${var.name}-codebuild/*",
           "Condition": { "StringEquals": { "s3:x-amz-acl": "bucket-owner-full-control" } },
           "Principal": { "Service": "logs.ap-northeast-1.amazonaws.com" }
       }
@@ -311,10 +329,12 @@ module "codebuild_bucket_name" {
 }
 module "ecs_web_bucket_name" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "3.5.0"
-  bucket        = var.ecs_web_bucket_name
+  version       = "3.14.0"
+  bucket        = "${var.name}-ecs-web"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }
@@ -339,13 +359,13 @@ module "ecs_web_bucket_name" {
       {
           "Action": "s3:GetBucketAcl",
           "Effect": "Allow",
-          "Resource": "arn:aws:s3:::${var.ecs_web_bucket_name}",
+          "Resource": "arn:aws:s3:::${var.name}-ecs-web",
           "Principal": { "Service": "logs.ap-northeast-1.amazonaws.com" }
       },
       {
           "Action": "s3:PutObject" ,
           "Effect": "Allow",
-          "Resource": "arn:aws:s3:::${var.ecs_web_bucket_name}/*",
+          "Resource": "arn:aws:s3:::${var.name}-ecs-web/*",
           "Condition": { "StringEquals": { "s3:x-amz-acl": "bucket-owner-full-control" } },
           "Principal": { "Service": "logs.ap-northeast-1.amazonaws.com" }
       }
@@ -357,10 +377,12 @@ module "ecs_web_bucket_name" {
 #For S3 bucket related to code
 module "s3_bucket" {
   source                  = "terraform-aws-modules/s3-bucket/aws"
-  version                 = "3.5.0"
-  bucket                  = var.bucket_name
+  version                 = "3.14.0"
+  bucket                  = "${var.bucket_name}"
   acl                     = "private"
   force_destroy           = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   # block_public_acls       = true
   # block_public_policy     = true
   # ignore_public_acls      = true
@@ -385,7 +407,6 @@ module "s3_bucket" {
       },
       "Action": "s3:*",
       "Resource": "arn:aws:s3:::${var.bucket_name}"
-
     }
   ]
 }
@@ -395,10 +416,12 @@ EOF
 # Waf bucket
 module "waf_bucket_delivery" {
   source        = "terraform-aws-modules/s3-bucket/aws"
-  version       = "v1.20.0"
+  version       = "3.14.0"
   bucket        = "aws-waf-logs-${var.name}"
   acl           = "private"
   force_destroy = true
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
   tags = {
     Terraform = "true"
   }

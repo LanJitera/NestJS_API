@@ -5,6 +5,7 @@ locals {
 # snapshot_identifier             = var.snapshot_identifier ? var.snapshot_identifier : null
 
 module "rds" {
+  version                         = "5.9.0"
   source                          = "terraform-aws-modules/rds/aws"
   identifier                      = local.identifier
   engine                          = "postgres"

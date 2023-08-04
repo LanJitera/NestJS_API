@@ -7,8 +7,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from 'entities/users';
-import { Party } from 'entities/parties';
+import { User } from '@entities/users';
+import { Party } from '@entities/parties';
 
 enum StatusEnum {
   APPROVE = 'Approve',

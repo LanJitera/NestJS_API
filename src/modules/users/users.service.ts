@@ -24,7 +24,7 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { User } from 'entities/users';
+import { User } from '@entities/users';
 import { UserRepository } from './users.repository';
 
 @Injectable()
@@ -46,24 +46,30 @@ export class UserService {
         column: 'username',
         value: queries?.users?.username,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'dateofbirth',
         value: queries?.users?.dateofbirth,
         operator: QueryOperators.EQUAL,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'email',
         value: queries?.users?.email,
         operator: QueryOperators.START_WITH,
-        whereType: QueryWhereType.WHERE_AND,
+        whereType: QueryWhereType.WHERE_OR,
       },
       {
         column: 'password',
         value: queries?.users?.password,
         operator: QueryOperators.START_WITH,
+        whereType: QueryWhereType.WHERE_OR,
+      },
+      {
+        column: 'role',
+        value: queries?.users?.role,
+        operator: QueryOperators.EQUAL,
         whereType: QueryWhereType.WHERE_OR,
       },
     ];
@@ -121,6 +127,7 @@ export class UserService {
       dateofbirth: request?.users?.dateofbirth,
       email: request?.users?.email,
       password: request?.users?.password,
+      role: request?.users?.role,
     };
 
     const entity = await this.repository.createOne({ data });
@@ -149,6 +156,7 @@ export class UserService {
       dateofbirth: request?.users?.dateofbirth,
       email: request?.users?.email,
       password: request?.users?.password,
+      role: request?.users?.role,
     };
 
     const entity = await this.repository.updateOne({ conditions, data });

@@ -24,7 +24,7 @@ import {
   DeletePartybookingResponseDTO,
   DeletePartybookingParamsDTO,
 } from './dto';
-import { ApiNestedQuery } from 'decorators/api-nested-query.decorator';
+import { ApiNestedQuery } from '@decorators/api-nested-query.decorator';
 
 @Controller()
 @ApiTags('Partybooking')

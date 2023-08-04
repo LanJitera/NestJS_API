@@ -10,8 +10,13 @@ import {
   JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { Partybooking } from 'entities/partybookings';
-import { Comment } from 'entities/comments';
+import { Partybooking } from '@entities/partybookings';
+import { Comment } from '@entities/comments';
+
+enum RoleEnum {
+  ADMIN = 'admin',
+  USER = 'user',
+}
 
 @Entity('users')
 export class User {
@@ -93,6 +98,9 @@ export class User {
   @Column({ nullable: true, type: 'timestamp' })
   confirmation_sent_at: Date;
 
+  @Column({ nullable: true, type: 'enum', enum: ['admin', 'user'], default: 'admin' })
+  role: `${RoleEnum}` = 'admin';
+
   @OneToMany(() => Partybooking, (partybooking) => partybooking.user, { cascade: true })
   @JoinColumn({ name: 'user_id' })
   partybookings: Partybooking[];
@@ -111,3 +119,5 @@ export class User {
     }
   }
 }
+
+export { RoleEnum };
