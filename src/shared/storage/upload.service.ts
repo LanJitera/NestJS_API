@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { StorageService, DriverType } from '@codebrew/nestjs-storage';
-import { StorageFile } from 'entities/storage_files';
+import { StorageFile } from '@entities/storage_files';
 import { FileSystemStoredFile } from 'nestjs-form-data';
 import { readFileSync } from 'fs';
 import { Repository } from 'typeorm';

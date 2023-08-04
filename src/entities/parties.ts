@@ -8,9 +8,9 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { Admin } from 'entities/admins';
-import { Partybooking } from 'entities/partybookings';
-import { Comment } from 'entities/comments';
+import { Admin } from '@entities/admins';
+import { Partybooking } from '@entities/partybookings';
+import { Comment } from '@entities/comments';
 
 enum IsstatusEnum {
   PUBLIC = 'Public',

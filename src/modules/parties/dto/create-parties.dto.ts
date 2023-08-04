@@ -1,4 +1,4 @@
-import { Party, IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { Party, IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 import {
   StringField,
   DateField,
