@@ -4,11 +4,11 @@ import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/
 import { Request } from 'express';
 
 import { ConfigService } from '@nestjs/config';
-import { Admin } from 'entities/admins';
-import { User } from 'entities/users';
-import { AccessToken } from 'entities/access_tokens';
+import { Admin } from '@entities/admins';
+import { User } from '@entities/users';
+import { AccessToken } from '@entities/access_tokens';
 
-import { JwtDto } from 'features/auth/dtos/jwt.dto';
+import { JwtDto } from '@features/auth/dtos/jwt.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AUTH_STRATEGY } from 'src/constants';

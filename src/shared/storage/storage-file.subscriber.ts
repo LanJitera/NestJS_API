@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EventSubscriber, EntitySubscriberInterface, DataSource, LoadEvent } from 'typeorm';
-import { StorageFile } from 'entities/storage_files';
+import { StorageFile } from '@entities/storage_files';
 import { StorageService, DriverType } from '@codebrew/nestjs-storage';
 import { ConfigService } from '@nestjs/config';
 

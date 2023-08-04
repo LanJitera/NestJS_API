@@ -1,10 +1,10 @@
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import {
   NumberField,
   StringFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class ShowAdminParamsDTO {
   @NumberField({ int: true })
