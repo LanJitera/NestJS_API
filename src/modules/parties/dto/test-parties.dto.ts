@@ -1,6 +1,6 @@
-import { Party, IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { Party, IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 import { NumberFieldOptional } from 'src/decorators/field.decorator';
-import { StatusEnum as PartybookingStatusEnum } from 'entities/partybookings';
+import { StatusEnum as PartybookingStatusEnum } from '@entities/partybookings';
 
 export class TestPartyRequestDTO {
   @NumberFieldOptional({ int: true })

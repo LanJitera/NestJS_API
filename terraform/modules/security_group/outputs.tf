@@ -1,4 +1,3 @@
-
 output "alb_sg_id" {
   description = "ID of the security group for application load balancer"
   value       = aws_security_group.web_lb.id
@@ -22,9 +21,4 @@ output "codebuild_sg_id" {
 output "redis_security_group_id" {
   description = "ID of the security group for codebuild"
   value       = aws_security_group.web_redis.id
-}
-
-output "ec2_retool_bastion_sg_id" {
-  description = "ID of the security group for ec2 retool bastion servers"
-  value       = aws_security_group.ec2_retool_bastion.id
 }

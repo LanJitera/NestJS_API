@@ -1,4 +1,4 @@
-import { StringField, StringFieldOptional } from 'decorators/field.decorator';
+import { StringField, StringFieldOptional } from '@decorators/field.decorator';
 
 export class RevokeTokenDto {
   @StringField()

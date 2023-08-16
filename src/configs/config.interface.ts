@@ -66,6 +66,8 @@ export interface TwilioConfig {
   accountSid: string;
   authToken: string;
   verificationServiceSid: string;
+  recaptchaSecretKey: string;
+  recaptchaScore: string;
 }
 
 export interface DeepLinkConfig {

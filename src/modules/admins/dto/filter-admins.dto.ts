@@ -1,10 +1,11 @@
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import {
   StringFieldOptional,
   NumberFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { StatusEnum as PartybookingStatusEnum } from '@entities/partybookings';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class FilterAdminRequest {
   @StringFieldOptional({ maxLength: 255, minLength: 0 })
@@ -20,6 +21,10 @@ export class FilterAdminRequestDTO {
   @ObjectFieldOptional(FilterAdminRequest)
   admins?: FilterAdminRequest;
 }
+export class PartybookingPartyFilterAdminResponse {
+  partybooking_id: number;
+  partybooking_status: `${PartybookingStatusEnum}`;
+}
 export class PartyFilterAdminResponse {
   id: number;
   created_at: Date;
@@ -30,6 +35,7 @@ export class PartyFilterAdminResponse {
   numberofpeople: number;
   isstatus: `${PartyIsstatusEnum}`;
   admin_id: number;
+  partybooking: PartybookingPartyFilterAdminResponse[];
 }
 export class FilterAdminResponse {
   id: number;
@@ -64,6 +70,11 @@ export class FilterAdminResponseDTO {
         numberofpeople: party?.numberofpeople,
         isstatus: party?.isstatus,
         admin_id: party?.admin_id,
+        partybooking: party?.partybookings?.map((partybooking) => ({
+          ...partybooking,
+          partybooking_id: partybooking?.id,
+          partybooking_status: partybooking?.status,
+        })),
       })),
       name: admin?.name,
       email: admin?.email,

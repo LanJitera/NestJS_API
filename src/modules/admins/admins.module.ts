@@ -4,7 +4,7 @@ import { provideCustomRepository } from 'src/utils/repository';
 import { AdminService } from './admins.service';
 import { AdminController } from './admins.controller';
 import { AdminRepository } from './admins.repository';
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Admin])],

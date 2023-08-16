@@ -1,11 +1,11 @@
-import { Comment } from 'entities/comments';
+import { Comment } from '@entities/comments';
 import {
   NumberField,
   NumberFieldOptional,
   StringFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class UpdateCommentParamsDTO {
   @NumberField({ int: true })

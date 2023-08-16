@@ -32,7 +32,7 @@ resource "aws_lb_target_group" "blue" {
     timeout             = 20
     healthy_threshold   = 3
     unhealthy_threshold = 4
-    matcher             = "200-405"
+    matcher             = 200
   }
   tags = {
     Terraform = "true"
@@ -52,7 +52,7 @@ resource "aws_lb_target_group" "green" {
     timeout             = 20
     healthy_threshold   = 3
     unhealthy_threshold = 4
-    matcher             = "200-405"
+    matcher             = 200
   }
   tags = {
     Terraform = "true"

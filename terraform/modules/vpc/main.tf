@@ -1,11 +1,7 @@
-locals {
-  // underscore is prefereble according to official terraform bestpractice, but redis only accepts hyphen based name.
-  identifier = replace(var.name, "_", "-")
-}
 module "vpc" {
   source              = "terraform-aws-modules/vpc/aws"
-  version             = "v3.18.0"
-  name                = local.identifier
+  version             = "v3.0.0"
+  name                = var.name
   cidr                = var.cidr
   azs                 = var.azs
   public_subnets      = var.public_subnets

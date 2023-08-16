@@ -1,9 +1,5 @@
-locals {
-  // underscore is prefereble according to official terraform bestpractice, but redis only accepts hyphen based name.
-  identifier = replace(var.name, "_", "-")
-}
 resource "aws_elasticache_parameter_group" "this" {
-  name   = local.identifier
+  name   = var.name
   family = "redis6.x"
 
   parameter {
@@ -12,8 +8,8 @@ resource "aws_elasticache_parameter_group" "this" {
   }
 }
 resource "aws_elasticache_replication_group" "this" {
-  replication_group_id          = local.identifier
-  replication_group_description = "Redis for ${local.identifier} application"
+  replication_group_id          = var.name
+  replication_group_description = "Redis for ${var.name} application"
   node_type                     = "cache.t3.micro"
   number_cache_clusters         = var.env == "production" ? 2 : 0
   automatic_failover_enabled    = var.env == "production" ? true : false
@@ -41,12 +37,12 @@ resource "aws_elasticache_replication_group" "this" {
   }
 }
 resource "aws_elasticache_cluster" "redis" {
-  cluster_id           = local.identifier
-  replication_group_id = aws_elasticache_replication_group.this.id
+  cluster_id                 = var.name
+  auto_minor_version_upgrade = false
+  replication_group_id       = aws_elasticache_replication_group.this.id
   lifecycle {
     ignore_changes = [
-      tags,
-      auto_minor_version_upgrade
+      tags
     ]
   }
 }

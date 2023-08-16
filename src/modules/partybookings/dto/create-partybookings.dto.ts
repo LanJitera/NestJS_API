@@ -1,6 +1,6 @@
-import { Partybooking, StatusEnum as PartybookingStatusEnum } from 'entities/partybookings';
+import { Partybooking, StatusEnum as PartybookingStatusEnum } from '@entities/partybookings';
 import { NumberField, EnumFieldOptional, ObjectField } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class CreatePartybookingRequest {
   @NumberField({ int: true })

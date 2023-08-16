@@ -181,7 +181,7 @@ variable "sns_target_arn" {
 # Example: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
 # db.t3.small: 150 connections, db.t3.medium: 500 connections 
 # https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
-variable "database_max_connection" { 
+variable "database_max_connections" { 
   description = "Maximum number of connections"
   default     = "150"
 }

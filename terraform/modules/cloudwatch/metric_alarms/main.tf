@@ -114,7 +114,6 @@ resource "aws_cloudwatch_metric_alarm" "memory_freeable_too_low" {
   }
 }
 
-
 resource "aws_cloudwatch_metric_alarm" "db_connection_count_anomalous" {
   alarm_name                = "${var.name}_rds_anomalous_connection_count"
   comparison_operator       = "GreaterThanUpperThreshold"
@@ -300,7 +299,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_anomalous" {
       metric_name = "CPUUtilization"
       namespace   = "AWS/ECS"
       period      = "300"
-      stat        = "Average"
+      stat        = "Maximum"
       unit        = "Percent"
 
       dimensions = {

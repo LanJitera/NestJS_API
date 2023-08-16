@@ -33,7 +33,6 @@ resource "aws_security_group_rule" "web_all_https" {
   security_group_id = aws_security_group.web_lb.id
 }
 
-
 // -------------- For internal app servers --------------
 resource "aws_security_group" "web_app" {
   vpc_id      = var.vpc_id
@@ -93,15 +92,6 @@ resource "aws_security_group_rule" "from_web_app_posgres_to_web_db" {
   security_group_id        = aws_security_group.web_db.id
 }
 
-resource "aws_security_group_rule" "from_ec2_retool_bastion_to_web_db" {
-  type                     = "ingress"
-  from_port                = 5432
-  to_port                  = 5432
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.ec2_retool_bastion.id
-  security_group_id        = aws_security_group.web_db.id
-}
-
 // -------------- For internal redis --------------
 resource "aws_security_group" "web_redis" {
   vpc_id      = var.vpc_id
@@ -142,6 +132,7 @@ resource "aws_security_group" "codebuild" {
     Terraform = "true"
   }
 }
+
 resource "aws_security_group_rule" "from_codebuild_to_db" {
   type                     = "ingress"
   from_port                = 5432
@@ -158,29 +149,4 @@ resource "aws_security_group_rule" "from_codebuild_to_app" {
   protocol                 = "-1"
   source_security_group_id = aws_security_group.codebuild.id
   security_group_id        = aws_security_group.web_app.id
-}
-
-// -------------- For ec2 retool bastion servers --------------
-resource "aws_security_group" "ec2_retool_bastion" {
-  vpc_id      = var.vpc_id
-  name        = "${var.name}_ec2_retool_bastion"
-  description = "Security group for ${var.name}_ec2_retool_bastion"
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Terraform = "true"
-  }
-}
-
-resource "aws_security_group_rule" "from_all_ssh_to_ec2_retool_bastion" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.ec2_retool_bastion.id
 }

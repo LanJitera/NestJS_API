@@ -1,14 +1,9 @@
-locals {
-  // underscore is prefereble according to official terraform bestpractice, but alb only accepts hyphen based name.
-  identifier = replace(var.name, "_", "-")
-}
-# snapshot_identifier             = var.snapshot_identifier ? var.snapshot_identifier : null
-
 module "rds" {
+  version                         = "5.9.0"
   source                          = "terraform-aws-modules/rds/aws"
-  identifier                      = local.identifier
+  identifier                      = var.name
   engine                          = "postgres"
-  engine_version                  = "14.1"
+  engine_version                  = "14.6"
   instance_class                  = var.instance_class
   create_random_password          = false
   allocated_storage               = 10
