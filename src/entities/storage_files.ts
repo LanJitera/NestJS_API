@@ -24,7 +24,7 @@ export class StorageFile {
   @Column({ nullable: false, type: 'varchar' })
   disk: string;
 
-  @Column({ type: 'integer', primary: true, nullable: true })
+  @Column({ nullable: true, type: 'integer' })
   uploader_id?: number;
 
   // Virtual column

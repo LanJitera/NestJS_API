@@ -1,6 +1,6 @@
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import { StringField, ObjectField } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class CreateAdminRequest {
   @StringField({ maxLength: 255, minLength: 0 })

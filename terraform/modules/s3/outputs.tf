@@ -1,4 +1,3 @@
-
 output "access_log_bucket_id" {
   description = "The ID of the bucket for access log"
   value       = module.access_log_s3_bucket.s3_bucket_id
@@ -31,5 +30,20 @@ output "athena_output_bucket_id" {
 
 output "waf_bucket_arn" {
   description = "ARN of the bucket for WAF"
-  value       = module.waf_bucket_delivery.this_s3_bucket_arn
+  value       = module.waf_bucket_delivery.s3_bucket_arn
+}
+
+output "ecs_exec_bucket_id" {
+  description = "The id of the bucket for access log"
+  value       = module.exec_ssh.s3_bucket_id
+}
+
+output "cloudwatch_log_groups_id" {
+  description = "The id of the bucket for cloudwatch log groups"
+  value       = module.cloudwatch_log_groups.s3_bucket_id
+}
+
+output "codebuild_bucket_id" {
+  description = "The id of the bucket for cloudbuild"
+  value       = module.codebuild_bucket_name.s3_bucket_id
 }
