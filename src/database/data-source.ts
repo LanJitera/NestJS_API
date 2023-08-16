@@ -18,6 +18,7 @@ const options = {
   entities: [__dirname + '/../entities/**/*{.ts,.js}'],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   namingStrategy: new SnakeNamingStrategy(),
+  autoLoadEntities: true,
 } as DataSourceOptions;
 
 export const dataSource = new DataSource(options);

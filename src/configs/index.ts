@@ -79,7 +79,7 @@ export default (): Config => {
       resetPasswordUrl:
         process.env.AUTH_RESET_PASSWORD_URL || 'http://localhost:3000/reset-password',
       resetPasswordIn: +process.env.AUTH_RESET_PASSWORD_IN || 1,
-      // passwordPattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/h',
+      passwordPattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/h',
       maximumAttempts: 10,
       unlockIn: '6h',
       unlockStrategy: 'time',
@@ -115,6 +115,9 @@ export default (): Config => {
       authToken: process.env.TWILIO_AUTH_TOKEN || credentials?.twilioLogin?.token,
       verificationServiceSid:
         process.env.TWILIO_VERIFICATION_SERVICE_SID || credentials?.twilioLogin?.serviceId,
+      recaptchaSecretKey:
+        process.env.RECAPTCHA_SECRET_KEY || credentials?.twilioLogin?.recaptchaSecretKey,
+      recaptchaScore: process.env.RECAPTCHA_SCORE || credentials?.twilioLogin?.recaptchaScore,
     },
     deepLink: {
       iosAppStoreId: process.env.IOS_APP_STORE_ID || credentials?.deepLink?.iosAppStoreId,

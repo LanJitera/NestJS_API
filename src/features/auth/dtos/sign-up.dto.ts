@@ -1,4 +1,4 @@
-import { ObjectField, StringField, DateField } from 'decorators/field.decorator';
+import { ObjectField, StringField, DateField } from '@decorators/field.decorator';
 
 export class AuthRegistrationUserRequest {
   @StringField({ maxLength: 65535, minLength: 0, password: true })

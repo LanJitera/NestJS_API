@@ -1,4 +1,4 @@
-import { Party, IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { Party, IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 import {
   NumberField,
   StringFieldOptional,
@@ -33,11 +33,21 @@ export class AdminShowPartyResponse {
   created_at: Date;
   updated_at: Date;
 }
+export class UserCommentShowPartyResponse {
+  user_id: number;
+  user_created_at: Date;
+  user_updated_at: Date;
+  user_isactive: boolean;
+  username: string;
+  dateofbirth: Date;
+  email: string;
+}
 export class CommentShowPartyResponse {
   id: number;
   created_at: Date;
   updated_at: Date;
   party_id: number;
+  user: UserCommentShowPartyResponse;
 }
 export class ShowPartyResponse {
   id: number;
@@ -96,6 +106,15 @@ export class ShowPartyResponseDTO {
         created_at: comment?.created_at,
         updated_at: comment?.updated_at,
         party_id: comment?.party_id,
+        user: {
+          user_id: comment?.user?.id,
+          user_created_at: comment?.user?.created_at,
+          user_updated_at: comment?.user?.updated_at,
+          user_isactive: comment?.user?.isactive,
+          username: comment?.user?.username,
+          dateofbirth: comment?.user?.dateofbirth,
+          email: comment?.user?.email,
+        },
       })),
     };
     this.message = message;

@@ -1,10 +1,11 @@
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import {
   NumberField,
   StringFieldOptional,
   ObjectFieldOptional,
 } from 'src/decorators/field.decorator';
-import { IsstatusEnum as PartyIsstatusEnum } from 'entities/parties';
+import { StatusEnum as PartybookingStatusEnum } from '@entities/partybookings';
+import { IsstatusEnum as PartyIsstatusEnum } from '@entities/parties';
 
 export class ShowAdminParamsDTO {
   @NumberField({ int: true })
@@ -20,6 +21,10 @@ export class ShowAdminRequestDTO {
   @ObjectFieldOptional(ShowAdminRequest)
   admins?: ShowAdminRequest;
 }
+export class PartybookingPartyShowAdminResponse {
+  partybooking_id: number;
+  partybooking_status: `${PartybookingStatusEnum}`;
+}
 export class PartyShowAdminResponse {
   id: number;
   created_at: Date;
@@ -30,6 +35,7 @@ export class PartyShowAdminResponse {
   numberofpeople: number;
   isstatus: `${PartyIsstatusEnum}`;
   admin_id: number;
+  partybooking: PartybookingPartyShowAdminResponse[];
 }
 export class ShowAdminResponse {
   id: number;
@@ -62,6 +68,11 @@ export class ShowAdminResponseDTO {
         numberofpeople: party?.numberofpeople,
         isstatus: party?.isstatus,
         admin_id: party?.admin_id,
+        partybooking: party?.partybookings?.map((partybooking) => ({
+          ...partybooking,
+          partybooking_id: partybooking?.id,
+          partybooking_status: partybooking?.status,
+        })),
       })),
       name: admin?.name,
       email: admin?.email,

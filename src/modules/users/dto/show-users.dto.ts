@@ -1,4 +1,4 @@
-import { User } from 'entities/users';
+import { User, RoleEnum as UserRoleEnum } from '@entities/users';
 import {
   NumberField,
   StringFieldOptional,
@@ -48,6 +48,7 @@ export class ShowUserResponse {
   dateofbirth: Date;
   email: string;
   comments: CommentShowUserResponse[];
+  role: `${UserRoleEnum}`;
 }
 export class ShowMessageResponse {}
 
@@ -81,6 +82,7 @@ export class ShowUserResponseDTO {
         party_id: comment?.party_id,
         user_id: comment?.user_id,
       })),
+      role: user?.role,
     };
     this.message = message;
   }

@@ -46,11 +46,11 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_high" {
   alarm_description = "High CPU"
 
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
+  evaluation_periods  = "3"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "120"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "60"
   dimensions = {
     ClusterName = var.cluster_name
