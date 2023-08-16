@@ -22,7 +22,7 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { Partybooking } from 'entities/partybookings';
+import { Partybooking } from '@entities/partybookings';
 import { PartybookingRepository } from './partybookings.repository';
 
 @Injectable()
@@ -55,8 +55,8 @@ export class PartybookingService {
     ];
 
     const relations: QueryRelation[] = [
-      { column: 'user', alias: 'users' },
-      { column: 'party', alias: 'parties' },
+      { column: 'user', alias: 'user' },
+      { column: 'party', alias: 'party' },
     ];
 
     const pagination: QueryPagination = {
@@ -88,8 +88,8 @@ export class PartybookingService {
     ];
 
     const relations: QueryRelation[] = [
-      { column: 'user', alias: 'users' },
-      { column: 'party', alias: 'parties' },
+      { column: 'user', alias: 'user' },
+      { column: 'party', alias: 'party' },
     ];
 
     const entity = await this.repository.getOne({ conditions });
@@ -99,8 +99,8 @@ export class PartybookingService {
   }
   async create(request: CreatePartybookingRequestDTO) {
     const relations: QueryRelation[] = [
-      { column: 'user', alias: 'users' },
-      { column: 'party', alias: 'parties' },
+      { column: 'user', alias: 'user' },
+      { column: 'party', alias: 'party' },
     ];
 
     const data = {
@@ -125,8 +125,8 @@ export class PartybookingService {
     ];
 
     const relations: QueryRelation[] = [
-      { column: 'user', alias: 'users' },
-      { column: 'party', alias: 'parties' },
+      { column: 'user', alias: 'user' },
+      { column: 'party', alias: 'party' },
     ];
 
     const data = {

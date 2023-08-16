@@ -10,7 +10,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { Party } from 'entities/parties';
+import { Party } from '@entities/parties';
 
 @Entity('admins')
 export class Admin {

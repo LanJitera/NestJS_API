@@ -29,7 +29,8 @@ export function userFactory(rest = {}) {
                             isactive: sample([true, false]),
               username: faker.datatype.string(255),
                                 email: faker.internet.email(),
-                                                                                                          ...rest,
+                                                                                                              role: sample(["admin","user"]),
+          ...rest,
   };
 }
 export function adminFactory(rest = {}) {

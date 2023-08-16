@@ -24,7 +24,7 @@ import {
   QueryOrder,
   QueryOrderDir,
 } from 'src/shared/base.repository';
-import { Admin } from 'entities/admins';
+import { Admin } from '@entities/admins';
 import { AdminRepository } from './admins.repository';
 
 @Injectable()
@@ -50,7 +50,10 @@ export class AdminService {
       },
     ];
 
-    const relations: QueryRelation[] = [{ column: 'parties', alias: 'parties' }];
+    const relations: QueryRelation[] = [
+      { column: 'parties', alias: 'parties' },
+      { column: 'parties.partybookings', alias: 'parties_partybookings' },
+    ];
 
     const pagination: QueryPagination = {
       page: queries?.pagination_page,

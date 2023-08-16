@@ -44,11 +44,6 @@ variable "database_host_arn" {
   default     = ""
 }
 
-variable "rails_master_key_arn" {
-  description = "ARN of rails master key"
-  default     = ""
-}
-
 variable "env" {
   description = "ENV rails"
   default     = ""

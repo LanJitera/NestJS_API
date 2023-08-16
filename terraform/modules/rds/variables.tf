@@ -46,3 +46,4 @@ variable "database_subnet_group_name" {
 variable "instance_class" {
   description = "Database instance type"
 }
+ 

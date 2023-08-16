@@ -1,5 +1,5 @@
 module "waf" {
-  version = "~> 3.8.1"
+  version =  "~> 3.8.1"
   source  = "umotif-public/waf-webaclv2/aws"
 
   scope                        = "REGIONAL"
